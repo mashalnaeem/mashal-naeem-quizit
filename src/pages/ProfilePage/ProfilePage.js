@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 
 import editIcon from '../../assets/icons/edit-24px.svg';
 
-const ProfilePage = () => {
+function ProfilePage ({ handleShow }) {
   const { userId } = useParams();
   const navigate = useNavigate();
 
@@ -44,6 +44,7 @@ const ProfilePage = () => {
 
   const handleEditProfile = () => {
     navigate(`/${userId}/profile/edit`);
+    handleShow();
   };
 
   return (

@@ -1,4 +1,5 @@
 import './App.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./components/Header/Header";
 // import Footer from "./components/Footer/Footer"
@@ -13,8 +14,19 @@ import QuizCreatePage from "./pages/QuizCreatePage/QuizCreatePage";
 // import QuizPlayPage from "./pages/QuizPlayPage/QuizPlayPage";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState } from "react";
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+
+  const handleShow = () => {
+    setShowModal(true);
+  };
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -22,8 +34,8 @@ function App() {
         <Routes>
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/:userId/profile" element={<ProfilePage />} />
-          <Route path="/:userId/profile/edit" element={<ProfileEditPage />} />
+          <Route path="/:userId/profile" element={<ProfilePage handleShow={handleShow} />} />
+          <Route path="/:userId/profile/edit" element={<ProfileEditPage howModal={showModal} handleClose={handleClose} />} />
           {/* <Route path="/quizes" element={<QuizListPage />} />  */}
           {/* <Route path="/quizes/:id" element={<QuizDetailsPage />} />  */}
           {/* <Route path="/:userId/create" element={<QuizCreatePage />} /> */}
