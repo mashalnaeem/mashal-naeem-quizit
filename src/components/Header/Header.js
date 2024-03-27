@@ -6,20 +6,21 @@ import { Link } from 'react-router-dom';
 
 function Header() { 
     return (
-        <header>
+        <header className="header">
+
       {/* Logo */}
-      <div className="logo">
+      <div className="header__logo">
         <Link to="/">
-            <img src={logo} alt="Quiz-It-logo"/>
+            <img className="header__image" src={logo} alt="Quiz-It-logo"/>
         </Link>
       </div>
 
       {/* Navigation links */}
-      <nav>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/signup">Sign Up</Link></li>
-          <li><Link to="/login">Log In</Link></li>
+      <nav className="nav">
+        <ul className="nav__list">
+          <li className="nav__item"><Link to="/">Home</Link></li>
+          <li className="nav__item"><Link to="/signup">Sign Up</Link></li>
+          <li className="nav__item"><Link to="/login">Log In</Link></li>
         </ul>
       </nav>
     </header>

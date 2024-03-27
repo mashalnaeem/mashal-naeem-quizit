@@ -58,7 +58,7 @@ function SignupPage() {
 
   return (
     <div className="form">
-      <h1>Create Your Quiz-It Account</h1>
+      <h1 className="form__title">Create Your Quiz-It Account</h1>
       <form className="form__body" onSubmit={handleSignup}>
 
         {/* Form fields */}
