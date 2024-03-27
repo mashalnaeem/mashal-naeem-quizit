@@ -18,9 +18,9 @@ function Header() {
       {/* Navigation links */}
       <nav className="nav">
         <ul className="nav__list">
-          <li className="nav__item"><Link to="/">Home</Link></li>
-          <li className="nav__item"><Link to="/signup">Sign Up</Link></li>
-          <li className="nav__item"><Link to="/login">Log In</Link></li>
+          <li className="nav__item"><Link className="nav__link" to="/">Home</Link></li>
+          <li className="nav__item"><Link className="nav__link" to="/signup">Sign Up</Link></li>
+          <li className="nav__item"><Link className="nav__link" to="/login">Log In</Link></li>
         </ul>
       </nav>
     </header>

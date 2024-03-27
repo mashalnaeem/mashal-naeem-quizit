@@ -18,10 +18,24 @@
 }
 
 .nav {
-
     &__list {
         list-style-type: none;
         margin: 0;
         padding: 0;
+    }
+
+    &__item {
+        display: inline;
+        margin-right: 1rem;
+    }
+
+    &__link {
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s ease; // Add a semicolon here
+
+        &:hover {
+            color: #ffd700;
+        }
     }
 }
