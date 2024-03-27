@@ -8,7 +8,7 @@ import SignupPage from "./pages/SignUpPage/SignUpPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ProfileEditPage from "./pages/ProfileEditPage/ProfileEditPage"
-// import QuizListPage from "./pages/QuizListPage/QuizListPage";
+import QuizListPage from "./pages/QuizListPage/QuizListPage";
 // import QuizDetailsPage from "./pages/QuizDetailsPage/QuizDetailsPage";
 import QuizCreatePage from "./pages/QuizCreatePage/QuizCreatePage";
 // import QuizPlayPage from "./pages/QuizPlayPage/QuizPlayPage";
@@ -36,7 +36,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/:userId/profile" element={<ProfilePage handleShow={handleShow} />} />
           <Route path="/:userId/profile/edit" element={<ProfileEditPage howModal={showModal} handleClose={handleClose} />} />
-          {/* <Route path="/quizes" element={<QuizListPage />} />  */}
+          <Route path="/quizzes" element={<QuizListPage />} /> 
           {/* <Route path="/quizes/:id" element={<QuizDetailsPage />} />  */}
           {/* <Route path="/:userId/create" element={<QuizCreatePage />} /> */}
           {/* <Route path="/quizes/:id/play" element={<QuizPlayPage />} /> */}
