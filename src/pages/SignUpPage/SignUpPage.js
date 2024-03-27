@@ -62,11 +62,41 @@ function SignupPage() {
       <form className="form__body" onSubmit={handleSignup}>
 
         {/* Form fields */}
-        <Input name="fullName" value={fullName} label="Full Name" onChange={(e) => setFullName(e.target.value)} type="text" />
-        <Input name="username" value={username} label="Create Username" onChange={(e) => setUsername(e.target.value)} type="text" />
-        <Input name="email" value={email} label="Email" onChange={(e) => setEmail(e.target.value)} type="email" />
-        <Input name="password" value={password} label="Create Password" onChange={(e) => setPassword(e.target.value)} type="password" />
-        <Input name="confirmPassword" value={confirmPassword} label="Confirm Password" onChange={(e) => setConfirmPassword(e.target.value)} type="password" />
+        <Input 
+          name="fullName" 
+          value={fullName} 
+          label="Full Name" 
+          onChange={(e) => setFullName(e.target.value)} 
+          type="text" 
+        />
+        <Input 
+          name="username" 
+          value={username} 
+          label="Create Username" 
+          onChange={(e) => setUsername(e.target.value)} 
+          type="text" 
+        />
+        <Input 
+          name="email" 
+          value={email} 
+          label="Email" 
+          onChange={(e) => setEmail(e.target.value)} 
+          type="email" 
+        />
+        <Input 
+          name="password" 
+          value={password} 
+          label="Create Password" 
+          onChange={(e) => setPassword(e.target.value)} 
+          type="password" 
+        />
+        <Input 
+          name="confirmPassword" 
+          value={confirmPassword} 
+          label="Confirm Password" 
+          onChange={(e) => setConfirmPassword(e.target.value)} 
+          type="password" 
+        />
        
         {/* Agree to Terms and Conditions */}
         <div className="form__terms">

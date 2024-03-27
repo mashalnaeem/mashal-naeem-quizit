@@ -20,12 +20,12 @@ function App() {
         <Header />
         <Routes>
           <Route path="/signup" element={<SignupPage />} />
-          {/* <Route path="/login" element={<LoginPage />} /> */}
+          <Route path="/login" element={<LoginPage />} />
           {/* <Route path="/profile" element={<ProfilePage />} /> */}
           {/* <Route path="/quizes" element={<QuizListPage />} />  */}
           {/* <Route path="/quizes/:id" element={<QuizDetailsPage />} />  */}
           {/* <Route path="/quizes/create" element={<QuizCreatePage />} /> */}
-          {/* <Route path="/quizes/play" element={<QuizPlayPage />} /> */}
+          {/* <Route path="/quizes/:id/play" element={<QuizPlayPage />} /> */}
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

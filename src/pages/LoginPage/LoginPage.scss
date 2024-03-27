@@ -1,0 +1,17 @@
+.form {
+
+    &__button {
+        width: 20%;
+        margin-right: 1rem;
+
+        &--cancel {
+            color: #003fc2;
+            background-color: white;
+
+        &:hover {
+            color: white;
+            background-color: #003fc2;
+        }
+    }
+}
+}
