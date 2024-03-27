@@ -1,1 +1,0 @@
-# mashal-naeem-quizit
