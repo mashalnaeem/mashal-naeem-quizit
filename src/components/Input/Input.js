@@ -6,7 +6,7 @@ function Input({ label, name, type, onChange, value }) {
             <label htmlFor={name} className="field__label">
                 {label}
             </label>
-            <input type={type} id={name} name={name} onChange={onChange} value={value} className="field__input" />
+            <input type={type} id={name} name={name} onChange={onChange} value={value} required className="field__input" />
         </div>
     );
 }
