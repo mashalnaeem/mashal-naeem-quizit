@@ -1,63 +1,54 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
 
+import editIcon from '../../assets/icons/edit-24px.svg';
+
 const ProfilePage = () => {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState('');
+  const { userId } = useParams();
   const navigate = useNavigate();
 
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState('');
+
   useEffect(() => {
-    // Fetch user data from the server
     const fetchUserData = async () => {
       try {
-        // Get the user ID from sessionStorage or wherever it's stored
-        const userId = sessionStorage.getItem('userId');
-    
-        // Get the token from sessionStorage
         const token = sessionStorage.getItem('token');
-    
-        // Make the GET request with the user ID as a parameter and the token in the headers
         const response = await axios.get(`http://localhost:8080/api/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        });    
+        });
         setUser(response.data);
 
       } catch (error) {
-        // Handle error fetching user data
         setError('Error fetching user data. Please try again.');
       }
     };
-  
+
     fetchUserData();
-  }, []);
+  }, [userId]);
 
   const handleLogout = async () => {
     try {
-      // Send logout request to the server
       await axios.post('/api/user/logout');
-      // Clear user data and redirect to login page
       setUser(null);
       setError('');
-      // Redirect to login page
-      window.location.href = '/login'; // Redirect to login page
-
+      window.location.href = '/login';
     } catch (error) {
-      console.error('Logout error:', error);
-      // Handle logout error
       setError('Error logging out. Please try again.');
     }
   };
 
-  const handleMyQuizzes = () => {
-    navigate('/quizzes'); // Redirect to My Quizzes page
+  const handleEditProfile = () => {
+    navigate(`/${userId}/profile/edit`);
   };
 
   return (
     <div className="profile-container">
+      <img src={editIcon} alt="Edit Profile" className="edit-icon" onClick={handleEditProfile} />
       <h2>User Profile</h2>
       {error && <p className="error-message">{error}</p>}
       {user && (
@@ -65,8 +56,9 @@ const ProfilePage = () => {
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Email:</strong> {user.email}</p>
           {/* Add more user information as needed */}
-          <Button variant="primary" onClick={handleMyQuizzes}>My Quizzes</Button>
           <Button variant="primary" onClick={handleLogout}>Logout</Button>
+          <Link to={`/${userId}/quizzes`}><Button variant="primary">My Quizzes</Button></Link>
+          <Link to={`/${userId}/createquiz`}><Button variant="primary">Create Quiz</Button></Link>
         </div>
       )}
     </div>

@@ -21,12 +21,11 @@ function LoginPage() {
 
       const { userId, token } = response.data;
 
-      // Store user ID and token in session storage
-      sessionStorage.setItem('userId', userId);
+      // Store the token in session storage
       sessionStorage.setItem('token', token);
 
       // Redirect user to profile page
-      navigate('/profile');
+      navigate(`/${response.data.userId}/profile`);
 
     } catch (error) {
       setError(error.response.data.error);
