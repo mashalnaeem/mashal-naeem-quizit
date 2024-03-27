@@ -9,7 +9,7 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ProfileEditPage from "./pages/ProfileEditPage/ProfileEditPage"
 import QuizListPage from "./pages/QuizListPage/QuizListPage";
-// import QuizDetailsPage from "./pages/QuizDetailsPage/QuizDetailsPage";
+import QuizDetailsPage from "./pages/QuizDetailsPage/QuizDetailsPage";
 import QuizCreatePage from "./pages/QuizCreatePage/QuizCreatePage";
 // import QuizPlayPage from "./pages/QuizPlayPage/QuizPlayPage";
 
@@ -37,7 +37,7 @@ function App() {
           <Route path="/:userId/profile" element={<ProfilePage handleShow={handleShow} />} />
           <Route path="/:userId/profile/edit" element={<ProfileEditPage howModal={showModal} handleClose={handleClose} />} />
           <Route path="/quizzes" element={<QuizListPage />} /> 
-          {/* <Route path="/quizes/:id" element={<QuizDetailsPage />} />  */}
+          <Route path="/quizzes/:quizId" element={<QuizDetailsPage />} /> 
           {/* <Route path="/:userId/create" element={<QuizCreatePage />} /> */}
           {/* <Route path="/quizes/:id/play" element={<QuizPlayPage />} /> */}
         </Routes>

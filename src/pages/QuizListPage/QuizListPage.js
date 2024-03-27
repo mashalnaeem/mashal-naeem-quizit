@@ -19,7 +19,6 @@ function QuizList() {
                 const response = await axios.get('http://localhost:8080/api/quizzes');
                 setQuizzes(response.data);
                 setDifficultyLevels(response.data);
-                console.log(response.data[0])
 
                 setLoading(false);
             } catch (error) {
@@ -52,7 +51,6 @@ function QuizList() {
                             <Card.Body>
                                 <Card.Title>{quiz.title}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">Category: {quiz.category}</Card.Subtitle>
-                                <Card.Text>{quiz.description}</Card.Text>
                                 <Card.Text>Total Questions: {quiz.num_questions}</Card.Text>
                                 <Link to={`/quizzes/${quiz.id}`}>
                                     <Button variant="primary">Details</Button>
