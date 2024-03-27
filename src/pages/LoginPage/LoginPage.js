@@ -19,7 +19,10 @@ function LoginPage() {
         password,
       });
 
-      const token = response.data.token;
+      const { userId, token } = response.data;
+
+      // Store user ID and token in session storage
+      sessionStorage.setItem('userId', userId);
       sessionStorage.setItem('token', token);
 
       // Redirect user to profile page
@@ -51,7 +54,7 @@ function LoginPage() {
           value={password} 
           label="Password" 
           onChange={(e) => setPassword(e.target.value)} 
-          type="email" 
+          type="password" 
         />
         <button className="form__button" type="submit">Login</button>
         <button className="form__button form__button--cancel" type="button" onClick={handleGoBack}>Go Back</button> {/* Add a button to go back */}
