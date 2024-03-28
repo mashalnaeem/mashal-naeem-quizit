@@ -81,6 +81,7 @@ function QuizPlayPage() {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
       setTimeRemaining(30); 
       setShowFeedback(false);
+      
     } else {
       navigate('/scoreboard'); 
     }
