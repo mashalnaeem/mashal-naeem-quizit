@@ -146,7 +146,6 @@ function QuizPlayPage() {
         quizData={quizData}
         showModal={showModal}
         setShowModal={setShowModal}
-        userAnswers={userAnswers}
       />
         </div>
     );

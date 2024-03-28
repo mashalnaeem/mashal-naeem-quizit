@@ -4,14 +4,14 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 
-function Scoreboard({ score, quizData, showModal, setShowModal, userAnswers }) {
+function Scoreboard({ score, quizData, showModal, setShowModal }) {
 
     const { userId } = useParams();
 
+
     const totalQuestions = quizData.length;
-    const correctAnswers = Object.values(userAnswers).filter(answer => answer === true).length;
-    const incorrectAnswers = totalQuestions - correctAnswers;
-    const percentage = ((correctAnswers / totalQuestions) * 100).toFixed(0);
+    const percentage = ((score / totalQuestions) * 100).toFixed(0);
+
 
     // Define message and emoji based on percentage
     let message;
@@ -42,8 +42,8 @@ function Scoreboard({ score, quizData, showModal, setShowModal, userAnswers }) {
             <Modal.Body>
                 <h5>Score: {score}</h5>
                 <p>Total Questions: {totalQuestions}</p>
-                <p>Correct Answers: {correctAnswers}</p>
-                <p>Incorrect Answers: {incorrectAnswers}</p>
+                {/* <p>Correct Answers: {correctAnswers}</p>
+                <p>Incorrect Answers: {incorrectAnswers}</p> */}
                 <p>Percentage: {percentage}%</p>
                 <p>{message}</p>
             </Modal.Body>
