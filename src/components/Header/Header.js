@@ -1,17 +1,19 @@
-import "./Header.scss"
+import React from 'react';
+import "./Header.scss";
+import logo from "../../assets/logo/logo.svg";
+import { Link } from 'react-router-dom';
 
-import logo from "../../assets/logo/logo.svg"
+function Header() {
+  // Check if the JWT token is present in session storage
+  const isLoggedIn = sessionStorage.getItem('token') !== null;
+  const userId = sessionStorage.getItem('userId')
 
-import { Link } from 'react-router-dom'; 
-
-function Header() { 
-    return (
-        <header className="header">
-
+  return (
+    <header className="header">
       {/* Logo */}
       <div className="header__logo">
         <Link to="/">
-            <img className="header__image" src={logo} alt="Quiz-It-logo"/>
+          <img className="header__image" src={logo} alt="Quiz-It-logo"/>
         </Link>
       </div>
 
@@ -19,12 +21,14 @@ function Header() {
       <nav className="nav">
         <ul className="nav__list">
           <li className="nav__item"><Link className="nav__link" to="/">Home</Link></li>
-          <li className="nav__item"><Link className="nav__link" to="/signup">Sign Up</Link></li>
-          <li className="nav__item"><Link className="nav__link" to="/login">Log In</Link></li>
+          {!isLoggedIn && <li className="nav__item"><Link className="nav__link" to="/signup">Sign Up</Link></li>}
+          {!isLoggedIn && <li className="nav__item"><Link className="nav__link" to="/login">Log In</Link></li>}
+          {isLoggedIn && <li className="nav__item"><Link className="nav__link" to={`/${userId}/profile`}>Profile</Link></li>}
+          {isLoggedIn && <li className="nav__item"><Link className="nav__link" to="/logout">Logout</Link></li>}
         </ul>
       </nav>
     </header>
-    )
+  );
 };
 
 export default Header;
