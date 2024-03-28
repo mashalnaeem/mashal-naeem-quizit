@@ -2,7 +2,8 @@ import "./LoginPage.scss"
 
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button } from "react-bootstrap";
 import Input from "../../components/Input/Input.js"
 
 function LoginPage() {
@@ -33,10 +34,6 @@ function LoginPage() {
     }
   };
 
-  const handleGoBack = () => {
-    navigate(-1); // Navigate back to the previous page
-  };
-
   return (
     <div className="form">
       <h2>Login</h2>
@@ -56,8 +53,8 @@ function LoginPage() {
           onChange={(e) => setPassword(e.target.value)} 
           type="password" 
         />
-        <button className="form__button" type="submit">Login</button>
-        <button className="form__button form__button--cancel" type="button" onClick={handleGoBack}>Go Back</button> {/* Add a button to go back */}
+        <Button className="form__button" type="submit">Login</Button>
+        <p>Don't have an account? <Link to="/signup">Sign up</Link></p>
       </form>
     </div>
   );
