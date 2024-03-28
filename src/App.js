@@ -11,7 +11,7 @@ import ProfileEditPage from "./pages/ProfileEditPage/ProfileEditPage"
 import QuizListPage from "./pages/QuizListPage/QuizListPage";
 import QuizDetailsPage from "./pages/QuizDetailsPage/QuizDetailsPage";
 import QuizCreatePage from "./pages/QuizCreatePage/QuizCreatePage";
-// import QuizPlayPage from "./pages/QuizPlayPage/QuizPlayPage";
+import QuizPlayPage from "./pages/QuizPlayPage/QuizPlayPage";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from "react";
@@ -39,7 +39,7 @@ function App() {
           <Route path="/quizzes" element={<QuizListPage />} /> 
           <Route path="/quizzes/:quizId" element={<QuizDetailsPage />} /> 
           {/* <Route path="/:userId/create" element={<QuizCreatePage />} /> */}
-          {/* <Route path="/quizes/:id/play" element={<QuizPlayPage />} /> */}
+          <Route path="/quizzes/:quizId/play" element={<QuizPlayPage />} />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

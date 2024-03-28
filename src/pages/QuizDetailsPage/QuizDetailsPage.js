@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
-function QuizDetailsPage () {
+function QuizDetailsPage() {
     const [quiz, setQuiz] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,9 +11,8 @@ function QuizDetailsPage () {
     useEffect(() => {
         const fetchQuizDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/quizzes/${quizId}`); 
+                const response = await axios.get(`http://localhost:8080/api/quizzes/${quizId}`);
                 setQuiz(response.data[0]);
-                console.log(response)
                 setLoading(false);
 
             } catch (error) {
@@ -57,7 +56,9 @@ function QuizDetailsPage () {
 
             {/* Action Section */}
             <section className="quiz-actions">
-                <button className="start-quiz-button">Start Quiz</button>
+                <Link to={`/quizzes/${quizId}/play`}>
+                    <button className="start-quiz-button">Start Quiz</button>
+                </Link>
             </section>
 
             {/* Additional Information Section */}
