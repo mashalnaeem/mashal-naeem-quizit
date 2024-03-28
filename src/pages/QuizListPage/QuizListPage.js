@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import "./QuizListPage.scss"
 
@@ -12,6 +12,8 @@ function QuizList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const { userId } = useParams();
+
     useEffect(() => {
         // Function to fetch quizzes from the backend
         const fetchQuizzes = async () => {
@@ -19,8 +21,8 @@ function QuizList() {
                 const response = await axios.get('http://localhost:8080/api/quizzes');
                 setQuizzes(response.data);
                 setDifficultyLevels(response.data);
-
                 setLoading(false);
+
             } catch (error) {
                 setError('Error fetching quizzes. Please try again later.');
                 setLoading(false);
@@ -52,7 +54,7 @@ function QuizList() {
                                 <Card.Title>{quiz.title}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">Category: {quiz.category}</Card.Subtitle>
                                 <Card.Text>Total Questions: {quiz.num_questions}</Card.Text>
-                                <Link to={`/quizzes/${quiz.id}`}>
+                                <Link to={`/${userId}/quizzes/${quiz.id}`}>
                                     <Button variant="primary">Details</Button>
                                 </Link>
                             </Card.Body>

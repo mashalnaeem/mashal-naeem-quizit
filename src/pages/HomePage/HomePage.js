@@ -1,8 +1,18 @@
-
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Navigate, Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
 
-const Home = () => {
+function HomePage() {
+    // Check if the JWT token is present in session storage
+    const isLoggedIn = sessionStorage.getItem('token') !== null;
+
+    const userId = sessionStorage.getItem('userId');
+
+    // If user is not logged in, redirect to login page
+    if (!isLoggedIn) {
+        return <Navigate to="/login" />;
+    }
+
     return (
         <div className="container mt-5">
             <h1 className="text-center">Create, Play, Run!</h1>
@@ -15,7 +25,7 @@ const Home = () => {
                             <Card.Text>
                                 Create a custom quiz? Click here to get started
                             </Card.Text>
-                            <Link to="/login">
+                            <Link to={`/${userId}/create`}>
                                 <Button variant="primary">Create Now</Button>
                             </Link>
                         </Card.Body>
@@ -30,7 +40,7 @@ const Home = () => {
                             <Card.Text>
                             Wanna play an existing game? Browse through various quizzes and test your knowledge.
                             </Card.Text>
-                            <Link to="/quizzes">
+                            <Link to={`/${userId}/quizzes`}>
                                 <Button variant="primary">Play Now</Button>
                             </Link>
                         </Card.Body>
@@ -41,4 +51,5 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomePage;
+

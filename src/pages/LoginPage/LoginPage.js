@@ -23,6 +23,7 @@ function LoginPage() {
 
       // Store the token in session storage
       sessionStorage.setItem('token', token);
+      sessionStorage.setItem('userId', userId);
 
       // Redirect user to profile page
       navigate(`/${response.data.userId}/profile`);

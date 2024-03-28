@@ -1,6 +1,6 @@
 import "./Header.scss"
 
-import logo from "../../assets/logo/quiz-it.svg"
+import logo from "../../assets/logo/logo.svg"
 
 import { Link } from 'react-router-dom'; 
 

@@ -38,9 +38,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/:userId/profile" element={<ProfilePage handleShow={handleShow} />} />
           <Route path="/:userId/profile/edit" element={<ProfileEditPage howModal={showModal} handleClose={handleClose} />} />
-          <Route path="/quizzes" element={<QuizListPage />} />
-          <Route path="/quizzes/:quizId" element={<QuizDetailsPage />} />
-          {/* <Route path="/:userId/create" element={<QuizCreatePage />} /> */}
+          <Route path="/:userId/quizzes" element={<QuizListPage />} />
+          <Route path="/:userId/quizzes/:quizId" element={<QuizDetailsPage />} />
+          <Route path="/:userId/create" element={<QuizCreatePage />} />
           <Route path="/quizzes/:quizId/play" element={<QuizPlayPage />} />
         </Routes>
         {/* <Footer /> */}
