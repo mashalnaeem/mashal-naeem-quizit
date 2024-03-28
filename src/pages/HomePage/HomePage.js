@@ -1,23 +1,33 @@
-import React from 'react';
-import { Navigate, Link } from 'react-router-dom';
-import { Card, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Card, Button, Modal } from 'react-bootstrap';
 
 function HomePage() {
-    // Check if the JWT token is present in session storage
     const isLoggedIn = sessionStorage.getItem('token') !== null;
-
     const userId = sessionStorage.getItem('userId');
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
-    // If user is not logged in, redirect to login page
-    if (!isLoggedIn) {
-        return <Navigate to="/login" />;
-    }
+    const handleCreateQuizClick = () => {
+        if (!isLoggedIn) {
+            setShowModal(true);
+        } else {
+            navigate(`/${userId}/create`);
+        }
+    };
+
+    const handlePlayQuizzesClick = () => {
+        if (!isLoggedIn) {
+            setShowModal(true);
+        } else {
+            navigate(`/${userId}/quizzes`);
+        }
+    };
 
     return (
         <div className="container mt-5">
             <h1 className="text-center">Create, Play, Run!</h1>
             <div className="row mt-5">
-                {/* Card 1 */}
                 <div className="col-md-6">
                     <Card>
                         <Card.Body>
@@ -25,31 +35,40 @@ function HomePage() {
                             <Card.Text>
                                 Create a custom quiz? Click here to get started
                             </Card.Text>
-                            <Link to={`/${userId}/create`}>
-                                <Button variant="primary">Create Now</Button>
-                            </Link>
+                            <Button variant="primary" onClick={handleCreateQuizClick}>Create Now</Button>
                         </Card.Body>
                     </Card>
                 </div>
-
-                {/* Card 2 */}
                 <div className="col-md-6">
                     <Card>
                         <Card.Body>
                             <Card.Title>Play Quizzes</Card.Title>
                             <Card.Text>
-                            Wanna play an existing game? Browse through various quizzes and test your knowledge.
+                                Wanna play an existing game? Browse through various quizzes and test your knowledge.
                             </Card.Text>
-                            <Link to={`/${userId}/quizzes`}>
-                                <Button variant="primary">Play Now</Button>
-                            </Link>
+                            <Button variant="primary" onClick={handlePlayQuizzesClick}>Play Now</Button>
                         </Card.Body>
                     </Card>
                 </div>
             </div>
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Log In Required</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    You need to log in to access this feature. Click below to proceed to the login page.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={() => setShowModal(false)}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={() => navigate('/login')}>
+                        Go to Login
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
-};
+}
 
 export default HomePage;
-
