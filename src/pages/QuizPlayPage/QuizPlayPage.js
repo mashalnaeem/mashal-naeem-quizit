@@ -7,13 +7,14 @@ function QuizPlayPage() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [timeRemaining, setTimeRemaining] = useState(30);
+  const [timerRunning, setTimerRunning] = useState(true); // New state variable to track timer status
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState(0);
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const navigate = useNavigate(); 
   const { quizId } = useParams();
-  let timerInterval = null;
 
   useEffect(() => {
     const fetchQuizData = async () => {
@@ -31,35 +32,34 @@ function QuizPlayPage() {
   }, [quizId]);
   
   useEffect(() => {
-    if (quizData.length > 0) {
-      timerInterval = setInterval(() => {
+    // Initialize timerInterval in the useEffect
+    const timerInterval = setInterval(() => {
+      if (timerRunning) { // Check if timer should be running
         setTimeRemaining(prevTime => {
           if (prevTime > 0) {
             return prevTime - 1;
           } else {
-            clearInterval(timerInterval);
-            handleAnswer(null); // Automatically mark answer as incorrect when time runs out
-            setShowFeedback(true); 
-            setFeedbackMessage('Time is up!');
+            clearInterval(timerInterval); // Clear the interval when time runs out
+            handleAnswer(null); // Automatically handle answer when time runs out
             return 0;
           }
         });
-      }, 1000);
-    }
-    return () => clearInterval(timerInterval);
-  }, [quizData]);
+      }
+    }, 1000);
+
+    return () => clearInterval(timerInterval); // Cleanup function to clear interval when component unmounts
+  }, [timerRunning]);
 
   const handleAnswer = (selectedOption) => {
-    clearInterval(timerInterval);
+    setTimerRunning(false); // Stop the timer when an answer is clicked
     if (selectedOption === null) {
-      // Automatically mark answer as incorrect if time runs out
-      selectedOption = 'Incorrect';
+      selectedOption = "Time's up!";
     }
     setUserAnswers(prevState => ({
       ...prevState,
       [currentQuestionIndex]: selectedOption
     }));
-
+  
     const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
     if (selectedOption === correctAnswer) {
       setScore(prevScore => prevScore + 1);
@@ -67,9 +67,11 @@ function QuizPlayPage() {
       setFeedbackMessage('Correct!');
     } else {
       setShowFeedback(true);
-      setFeedbackMessage('Incorrect!');
+      setFeedbackMessage(selectedOption === "Time's up!" ? "Time's up!" : 'Incorrect!');
+      setShowCorrectAnswer(true);
     }
   };
+
 
   const handleNextQuestion = () => {
     if (!quizData || quizData.length === 0) {
@@ -81,7 +83,8 @@ function QuizPlayPage() {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
       setTimeRemaining(30); 
       setShowFeedback(false);
-      
+      setShowCorrectAnswer(false);
+      setTimerRunning(true); // Start the timer for the next question
     } else {
       navigate('/scoreboard'); 
     }
@@ -118,6 +121,7 @@ function QuizPlayPage() {
         </li>
       </ul>
       {showFeedback && <p>{feedbackMessage}</p>}
+      {showCorrectAnswer && <p>Correct Answer: {quizData[currentQuestionIndex]?.correct_answer}</p>}
       <button onClick={handleNextQuestion} disabled={!showFeedback}>Next Question</button>
       <p>Score: {score}</p>
     </div>
