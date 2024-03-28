@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from "./components/Header/Header";
 // import Footer from "./components/Footer/Footer"
-// import HomePage from "./pages/HomePage/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 import SignupPage from "./pages/SignUpPage/SignUpPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
@@ -33,12 +33,13 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/:userId/profile" element={<ProfilePage handleShow={handleShow} />} />
           <Route path="/:userId/profile/edit" element={<ProfileEditPage howModal={showModal} handleClose={handleClose} />} />
-          <Route path="/quizzes" element={<QuizListPage />} /> 
-          <Route path="/quizzes/:quizId" element={<QuizDetailsPage />} /> 
+          <Route path="/quizzes" element={<QuizListPage />} />
+          <Route path="/quizzes/:quizId" element={<QuizDetailsPage />} />
           {/* <Route path="/:userId/create" element={<QuizCreatePage />} /> */}
           <Route path="/quizzes/:quizId/play" element={<QuizPlayPage />} />
         </Routes>
@@ -49,4 +50,3 @@ function App() {
 }
 
 export default App;
-       {/* <Route path="/home" element={<HomePage />} /> */}
