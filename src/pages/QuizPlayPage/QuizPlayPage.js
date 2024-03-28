@@ -95,35 +95,47 @@ function QuizPlayPage() {
   }
 
   return (
-    <div>
+    <div className="container mt-3">
       <h2>Quiz Play Page</h2>
-      <p>Question {currentQuestionIndex + 1} of {quizData.length}</p>
-      <p>Time Remaining: {timeRemaining} seconds</p>
-      <p>{quizData[currentQuestionIndex]?.question}</p>
-      <ul>
-        {quizData[currentQuestionIndex]?.incorrect_answers.map((option, index) => (
-          <li key={index}>
-            <button 
-              onClick={() => handleAnswer(option)}
-              disabled={showFeedback}
-            >
-              {option}
-            </button>
-          </li>
-        ))}
-        <li>
-          <button 
-            onClick={() => handleAnswer(quizData[currentQuestionIndex]?.correct_answer)}
-            disabled={showFeedback}
-          >
-            {quizData[currentQuestionIndex]?.correct_answer}
-          </button>
-        </li>
-      </ul>
-      {showFeedback && <p>{feedbackMessage}</p>}
-      {showCorrectAnswer && <p>Correct Answer: {quizData[currentQuestionIndex]?.correct_answer}</p>}
-      <button onClick={handleNextQuestion} disabled={!showFeedback}>Next Question</button>
-      <p>Score: {score}</p>
+      <p className="mb-2">Question {currentQuestionIndex + 1} of {quizData.length}</p>
+      <p className="mb-2">Time Remaining: {timeRemaining} seconds</p>
+      <div className="card mb-3">
+        <div className="card-body">
+          <h5 className="card-title">{quizData[currentQuestionIndex]?.question}</h5>
+          <ul className="list-group list-group-flush">
+            {quizData[currentQuestionIndex]?.incorrect_answers.map((option, index) => (
+              <li key={index} className="list-group-item">
+                <button 
+                  className="btn btn-secondary w-100"
+                  onClick={() => handleAnswer(option)}
+                  disabled={showFeedback}
+                >
+                  {option}
+                </button>
+              </li>
+            ))}
+            <li className="list-group-item">
+              <button 
+                className="btn btn-secondary w-100"
+                onClick={() => handleAnswer(quizData[currentQuestionIndex]?.correct_answer)}
+                disabled={showFeedback}
+              >
+                {quizData[currentQuestionIndex]?.correct_answer}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      {showFeedback && <p className="mb-2">{feedbackMessage}</p>}
+      {showCorrectAnswer && <p className="mb-2">Correct Answer: {quizData[currentQuestionIndex]?.correct_answer}</p>}
+      <button 
+        className="btn btn-primary"
+        onClick={handleNextQuestion} 
+        disabled={!showFeedback}
+      >
+        Next Question
+      </button>
+      <p className="mt-2">Score: {score}</p>
     </div>
   );
 }
