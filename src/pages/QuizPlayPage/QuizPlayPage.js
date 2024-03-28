@@ -140,21 +140,14 @@ function QuizPlayPage() {
                 Next Question
             </button>
 
-            {/* Bootstrap Modal */}
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Quiz Score</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {/* Content to display quiz score */}
-                    Your quiz score is: {score}
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            {/* Scoreboard Modal */}
+            <Scoreboard
+        score={score}
+        quizData={quizData}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        userAnswers={userAnswers}
+      />
         </div>
     );
 }
