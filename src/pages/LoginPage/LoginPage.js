@@ -27,7 +27,7 @@ function LoginPage() {
       sessionStorage.setItem('userId', userId);
 
       // Redirect user to profile page
-      navigate(`/${response.data.userId}/profile`);
+      navigate(`/${response.data.userId}/home`);
 
     } catch (error) {
       setError(error.response.data.error);
