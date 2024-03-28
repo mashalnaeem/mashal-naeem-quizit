@@ -123,7 +123,7 @@ function SignupPage() {
         <button className="form__button" type="submit" disabled={!agreeTerms || password !== confirmPassword}>Sign Up</button>      
       </form>
       <p>
-        Already a user? Click here to 
+        Already have an account? Click here to 
         <Link to="/login"> login</Link>
       </p>
     </div>

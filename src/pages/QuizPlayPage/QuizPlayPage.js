@@ -1,29 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Scoreboard from '../../components/Scoreboard/Scoreboard';
+import shuffleArray from '../../utils/shuffleArray';
 
 function QuizPlayPage() {
     const [quizData, setQuizData] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState({});
     const [timeRemaining, setTimeRemaining] = useState(30);
-    const [timerRunning, setTimerRunning] = useState(true); // New state variable to track timer status
     const [loading, setLoading] = useState(true);
     const [score, setScore] = useState(0);
     const [showFeedback, setShowFeedback] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const [timerInterval, setTimerInterval] = useState(null);
+
     const { quizId } = useParams();
 
     useEffect(() => {
         const fetchQuizData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/quizzes/${quizId}/questions`);
-                setQuizData(response.data);
+                const shuffledData = response.data.map(question => ({
+                    ...question,
+                    options: shuffleArray([...question.incorrect_answers, question.correct_answer])
+                }));
+                setQuizData(shuffledData);
                 setLoading(false);
                 setTimeRemaining(30);
             } catch (error) {
@@ -31,30 +36,29 @@ function QuizPlayPage() {
             }
         };
         fetchQuizData();
-
     }, [quizId]);
 
     useEffect(() => {
-        // Initialize timerInterval in the useEffect
-        const timerInterval = setInterval(() => {
-            if (timerRunning) { // Check if timer should be running
+        // Start the timer interval when quiz data is loaded
+        if (quizData.length > 0) {
+            const interval = setInterval(() => {
                 setTimeRemaining(prevTime => {
                     if (prevTime > 0) {
                         return prevTime - 1;
                     } else {
-                        clearInterval(timerInterval); // Clear the interval when time runs out
+                        clearInterval(interval); // Clear the interval when time runs out
                         handleAnswer(null); // Automatically handle answer when time runs out
                         return 0;
                     }
                 });
-            }
-        }, 1000);
-
+            }, 1000);
+            setTimerInterval(interval); // Save the interval to state variable
+        }
         return () => clearInterval(timerInterval); // Cleanup function to clear interval when component unmounts
-    }, [timerRunning]);
+    }, [quizData, currentQuestionIndex]);
 
     const handleAnswer = (selectedOption) => {
-        setTimerRunning(false); // Stop the timer when an answer is clicked
+        clearInterval(timerInterval); // Clear the timer interval to freeze the timer
         if (selectedOption === null) {
             selectedOption = "Time's up!";
         }
@@ -62,19 +66,18 @@ function QuizPlayPage() {
             ...prevState,
             [currentQuestionIndex]: selectedOption
         }));
-
+    
         const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
         if (selectedOption === correctAnswer) {
             setScore(prevScore => prevScore + 1);
-            setShowFeedback(true);
+            setShowFeedback(true); 
             setFeedbackMessage('Correct!');
         } else {
             setShowFeedback(true);
             setFeedbackMessage(selectedOption === "Time's up!" ? "Time's up!" : 'Incorrect!');
             setShowCorrectAnswer(true);
         }
-    };
-
+    };    
 
     const handleNextQuestion = () => {
         if (!quizData || quizData.length === 0) {
@@ -87,9 +90,8 @@ function QuizPlayPage() {
             setTimeRemaining(30);
             setShowFeedback(false);
             setShowCorrectAnswer(false);
-            setTimerRunning(true); // Start the timer for the next question
-
         } else {
+            // If there are no more questions, show the modal
             setShowModal(true);
         }
     };
@@ -107,7 +109,7 @@ function QuizPlayPage() {
                 <div className="card-body">
                     <h5 className="card-title">{quizData[currentQuestionIndex]?.question}</h5>
                     <ul className="list-group list-group-flush">
-                        {quizData[currentQuestionIndex]?.incorrect_answers.map((option, index) => (
+                        {quizData[currentQuestionIndex]?.options.map((option, index) => (
                             <li key={index} className="list-group-item">
                                 <button
                                     className="btn btn-secondary w-100"
@@ -118,15 +120,6 @@ function QuizPlayPage() {
                                 </button>
                             </li>
                         ))}
-                        <li className="list-group-item">
-                            <button
-                                className="btn btn-secondary w-100"
-                                onClick={() => handleAnswer(quizData[currentQuestionIndex]?.correct_answer)}
-                                disabled={showFeedback}
-                            >
-                                {quizData[currentQuestionIndex]?.correct_answer}
-                            </button>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -137,16 +130,16 @@ function QuizPlayPage() {
                 onClick={handleNextQuestion}
                 disabled={!showFeedback}
             >
-                Next Question
+                {currentQuestionIndex < quizData.length - 1 ? 'Next Question' : 'Finish Quiz'}
             </button>
 
             {/* Scoreboard Modal */}
             <Scoreboard
-        score={score}
-        quizData={quizData}
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />
+                score={score}
+                quizData={quizData}
+                showModal={showModal}
+                setShowModal={setShowModal}
+            />
         </div>
     );
 }
