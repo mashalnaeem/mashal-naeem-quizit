@@ -3,6 +3,7 @@ import "./SignUpPage.scss"
 import { useState } from 'react';
 import axios from 'axios';
 import Input from "../../components/Input/Input.js"
+import { Link } from "react-router-dom";
 
 function SignupPage() {
   const [username, setUsername] = useState('');
@@ -121,6 +122,10 @@ function SignupPage() {
         {/* Sign Up Button */}
         <button className="form__button" type="submit" disabled={!agreeTerms || password !== confirmPassword}>Sign Up</button>      
       </form>
+      <p>
+        Already a user? Click here to 
+        <Link to="/login"> login</Link>
+      </p>
     </div>
   );
 }
