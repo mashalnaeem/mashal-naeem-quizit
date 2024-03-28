@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Input from "../../components/Input/Input.js"
 import { Link } from "react-router-dom";
+import { Button, Modal } from 'react-bootstrap';
 
 function SignupPage() {
   const [username, setUsername] = useState('');
@@ -13,6 +14,7 @@ function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   const handleSignup = async (e) => {
     e.preventDefault(); // Prevent default form submission
@@ -36,26 +38,24 @@ function SignupPage() {
       const response = await axios.post('http://localhost:8080/api/users/register', userData);
 
       // Handle successful signup
-      console.log('Signup successful:', response.data);
+      setShowModal(true);
 
-      // Extract the JWT token from the response
-      const token = response.data.token;
+    } catch (error) {
+      // Handle signup error
+      if (error.response && error.response.data && error.response.data.message) {
+        // If the backend sends an error message, set it as the error message state
+        setErrorMessage(error.response.data.message);
 
-      // Store the token in sessionStorage
-      sessionStorage.setItem('token', token);
-
-     } catch (error) {
-        // Handle signup error
-        if (error.response && error.response.data && error.response.data.message) {
-          // If the backend sends an error message, set it as the error message state
-          setErrorMessage(error.response.data.message);
-
-        } else {
-          // If no specific error message is sent from the backend, log the error
-          console.error('Signup error:', error);
-        }
+      } else {
+        // If no specific error message is sent from the backend, log the error
+        console.error('Signup error:', error);
       }
+    }
   };
+
+  const handleClick = () => {
+    setShowModal(false);
+  }
 
   return (
     <div className="form">
@@ -63,42 +63,42 @@ function SignupPage() {
       <form className="form__body" onSubmit={handleSignup}>
 
         {/* Form fields */}
-        <Input 
-          name="fullName" 
-          value={fullName} 
-          label="Full Name" 
-          onChange={(e) => setFullName(e.target.value)} 
-          type="text" 
+        <Input
+          name="fullName"
+          value={fullName}
+          label="Full Name"
+          onChange={(e) => setFullName(e.target.value)}
+          type="text"
         />
-        <Input 
-          name="username" 
-          value={username} 
-          label="Create Username" 
-          onChange={(e) => setUsername(e.target.value)} 
-          type="text" 
+        <Input
+          name="username"
+          value={username}
+          label="Create Username"
+          onChange={(e) => setUsername(e.target.value)}
+          type="text"
         />
-        <Input 
-          name="email" 
-          value={email} 
-          label="Email" 
-          onChange={(e) => setEmail(e.target.value)} 
-          type="email" 
+        <Input
+          name="email"
+          value={email}
+          label="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
         />
-        <Input 
-          name="password" 
-          value={password} 
-          label="Create Password" 
-          onChange={(e) => setPassword(e.target.value)} 
-          type="password" 
+        <Input
+          name="password"
+          value={password}
+          label="Create Password"
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
         />
-        <Input 
-          name="confirmPassword" 
-          value={confirmPassword} 
-          label="Confirm Password" 
-          onChange={(e) => setConfirmPassword(e.target.value)} 
-          type="password" 
+        <Input
+          name="confirmPassword"
+          value={confirmPassword}
+          label="Confirm Password"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          type="password"
         />
-       
+
         {/* Agree to Terms and Conditions */}
         <div className="form__terms">
           <input
@@ -120,10 +120,33 @@ function SignupPage() {
         {password !== confirmPassword && <p className="form__error">Passwords don't match</p>}
 
         {/* Sign Up Button */}
-        <button className="form__button" type="submit" disabled={!agreeTerms || password !== confirmPassword}>Sign Up</button>      
+        <Button
+          className="form__button"
+          type="submit"
+          disabled={!agreeTerms || password !== confirmPassword}>
+          Sign Up
+        </Button>
+
+        {/* Modal for successful signup */}
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Signup Successful</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>Your account has been successfully created!</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Link to="/login">
+              <Button variant="primary" onClick={handleClick}>
+                Go to Login
+              </Button>
+            </Link>
+          </Modal.Footer>
+
+        </Modal>
       </form>
       <p>
-        Already have an account? Click here to 
+        Already have an account? Click here to
         <Link to="/login"> login</Link>
       </p>
     </div>
