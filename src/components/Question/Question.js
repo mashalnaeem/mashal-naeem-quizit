@@ -1,4 +1,6 @@
-import React from 'react';
+import { Button } from 'react-bootstrap';
+
+import Input from '../Input/Input';
 
 const Question = ({ questions, setFormData }) => {
 
@@ -7,7 +9,7 @@ const Question = ({ questions, setFormData }) => {
         const updatedQuestions = [...questions];
         if (field === 'incorrect_answers') {
             updatedQuestions[index].incorrect_answers[subIndex] = value;
-            
+
         } else {
             updatedQuestions[index][field] = value;
         }
@@ -36,41 +38,38 @@ const Question = ({ questions, setFormData }) => {
     return (
         <div>
             <p>Total Questions: {questions.length}</p>
-            <button type="button" onClick={handleAddQuestion}>Add Question</button>
+            <Button type="button" onClick={handleAddQuestion}>Add Question</Button>
+
             {questions.map((question, index) => (
                 <div key={index}>
-                    <label>Question {index + 1}:</label>
-                    <input
+                    <Input
                         type="text"
                         name={`questions[${index}].question`}
                         value={question.question}
                         onChange={(e) => handleQuestionChange(e, index, 'question')}
-                        required
+                        label={`Question ${index + 1}`}
+                    />
+
+                    <Input
+                        type="text"
+                        name={`questions[${index}].correct_answer`}
+                        value={question.correct_answer}
+                        onChange={(e) => handleQuestionChange(e, index, 'correct_answer')}
+                        label="Correct Answer"
                     />
                     <div>
-                        <label>Correct Answer:</label>
-                        <input
-                            type="text"
-                            name={`questions[${index}].correct_answer`}
-                            value={question.correct_answer}
-                            onChange={(e) => handleQuestionChange(e, index, 'correct_answer')}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Incorrect Answers:</label>
                         {[0, 1, 2].map(subIndex => (
-                            <input
+                            <Input
                                 key={subIndex}
                                 type="text"
                                 name={`questions[${index}].incorrect_answers[${subIndex}]`}
                                 value={question.incorrect_answers[subIndex]}
                                 onChange={(e) => handleQuestionChange(e, index, 'incorrect_answers', subIndex)}
-                                required
+                                label={`Incorrect Answer ${subIndex + 1}`}
                             />
                         ))}
                     </div>
-                    <button type="button" onClick={() => handleRemoveQuestion(index)}>Remove</button>
+                    <Button varient="primary" type="button" onClick={() => handleRemoveQuestion(index)}>Remove</Button>
                 </div>
             ))}
         </div>
