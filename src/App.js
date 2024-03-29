@@ -12,6 +12,7 @@ import ProfileEditPage from "./pages/ProfileEditPage/ProfileEditPage"
 import QuizListPage from "./pages/QuizListPage/QuizListPage";
 import QuizDetailsPage from "./pages/QuizDetailsPage/QuizDetailsPage";
 import QuizCreatePage from "./pages/QuizCreatePage/QuizCreatePage";
+import UserQuizPage from "./pages/UserQuizPage/UserQuizPage"
 import QuizPlayPage from "./pages/QuizPlayPage/QuizPlayPage";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -42,6 +43,7 @@ function App() {
           <Route path="/:userId/quizzes" element={<QuizListPage />} />
           <Route path="/:userId/quizzes/:quizId" element={<QuizDetailsPage />} />
           <Route path="/:userId/create" element={<QuizCreatePage />} />
+          <Route path="/:userId/user_quizzes" element={<UserQuizPage />} />
           <Route path="/quizzes/:quizId/play" element={<QuizPlayPage />} />
         </Routes>
         {/* <Footer /> */}
