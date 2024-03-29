@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 
 import editIcon from '../../assets/icons/edit-24px.svg';
 
-function ProfilePage ({ handleShow }) {
+function ProfilePage({ handleShow }) {
   const { userId } = useParams();
   const navigate = useNavigate();
 
@@ -56,14 +56,17 @@ function ProfilePage ({ handleShow }) {
         <div>
           <p><strong>Username:</strong> {user.username}</p>
           <p><strong>Email:</strong> {user.email}</p>
-          {/* Add more user information as needed */}
+          {/* Display user's score and number of quizzes attempted */}
+          <p><strong>Score:</strong> {user.score}</p>
+          <p><strong>Quizzes Attempted:</strong> {user.quizzes_played}</p>
           <Button variant="primary" onClick={handleLogout}>Logout</Button>
-          <Link to={`/${userId}/quizzes`}><Button variant="primary">My Quizzes</Button></Link>
-          <Link to={`/${userId}/createquiz`}><Button variant="primary">Create Quiz</Button></Link>
+          <Link to={`/${userId}/user_quizzes`}><Button variant="primary">My Quizzes</Button></Link>
+          <Link to={`/${userId}/quizzes`}><Button variant="primary">Explore Quizzes</Button></Link>
+          <Link to={`/${userId}/create`}><Button variant="primary">Create Quiz</Button></Link>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default ProfilePage;

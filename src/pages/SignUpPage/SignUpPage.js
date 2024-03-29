@@ -17,9 +17,8 @@ function SignupPage() {
   const [showModal, setShowModal] = useState(false);
 
   const handleSignup = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
 
-    // Check if passwords match
     if (password !== confirmPassword) {
       console.error('Passwords do not match');
       return;
@@ -37,17 +36,13 @@ function SignupPage() {
       // Send POST request to backend signup endpoint
       const response = await axios.post('http://localhost:8080/api/users/register', userData);
 
-      // Handle successful signup
       setShowModal(true);
 
     } catch (error) {
-      // Handle signup error
       if (error.response && error.response.data && error.response.data.message) {
-        // If the backend sends an error message, set it as the error message state
         setErrorMessage(error.response.data.message);
 
       } else {
-        // If no specific error message is sent from the backend, log the error
         console.error('Signup error:', error);
       }
     }
