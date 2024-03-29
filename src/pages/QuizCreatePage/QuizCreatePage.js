@@ -3,6 +3,10 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 
+import Question from '../../components/Question/Question';
+import Input from '../../components/Input/Input';
+
+
 function QuizCreatePage() {
     const { userId } = useParams();
     const navigate = useNavigate();
@@ -15,7 +19,7 @@ function QuizCreatePage() {
         category: '',
         difficulty: '',
         num_questions: '',
-        duration_minutes: '', 
+        duration_minutes: '',
         isPublic: false,
         questions: [{ question: '', correct_answer: '', incorrect_answers: ['', '', ''] }]
     });
@@ -31,43 +35,13 @@ function QuizCreatePage() {
         }));
     };
 
-    const handleQuestionChange = (e, index, field, subIndex) => {
-        const { value } = e.target;
-        const updatedQuestions = [...formData.questions];
-        if (field === 'incorrect_answers') {
-            updatedQuestions[index].incorrect_answers[subIndex] = value;
-        } else {
-            updatedQuestions[index][field] = value;
-        }
-        setFormData(prevData => ({
-            ...prevData,
-            questions: updatedQuestions,
-            num_questions: updatedQuestions.length
-        }));
-    };
-
-    const handleRemoveQuestion = (index) => {
-        const updatedQuestions = formData.questions.filter((_, i) => i !== index);
-        setFormData(prevData => ({
-            ...prevData,
-            questions: updatedQuestions
-        }));
-    };
-
-    const handleAddQuestion = () => {
-        setFormData(prevData => ({
-            ...prevData,
-            questions: [...prevData.questions, { question: '', correct_answer: '', incorrect_answers: ['', '', ''] }]
-        }));
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(`http://localhost:8080/api/user_quizzes/${userId}`, formData);
             console.log('New user quiz created:', response.data);
             setShowModal(true);
-            
+
         } catch (error) {
             console.error('Error creating user quiz:', error);
             // Handle error, display error message, etc.
@@ -83,16 +57,23 @@ function QuizCreatePage() {
         <div>
             <h2>Create User Quiz</h2>
             <form onSubmit={handleSubmit}>
+
+                <Input
+                    name="title"
+                    value={formData.title}
+                    label="Title"
+                    onChange={handleChange}
+                    type="text"
+                />
+                <Input
+                    name="description"
+                    value={formData.description}
+                    label="Description"
+                    onChange={handleChange}
+                    type="text"
+                />
                 <div>
-                    <label>Title:</label>
-                    <input type="text" name="title" value={formData.title} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Description:</label>
-                    <textarea name="description" value={formData.description} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Category:</label>
+                    <label>Category</label>
                     <select name="category" value={formData.category} onChange={handleChange} required>
                         <option value="">Select Category</option>
                         <option value="Language">Language</option>
@@ -103,19 +84,18 @@ function QuizCreatePage() {
                         <option value="Technology">Technology</option>
                         <option value="Other">Other</option>
                     </select>
+
                     {formData.category === "Other" && (
-                        <input
-                            type="text"
+                        <Input
                             name="otherCategory"
-                            placeholder="Enter Other Category"
                             value={formData.otherCategory}
                             onChange={handleChange}
-                            required
-                        />
+                            type="text"
+                       />
                     )}
                 </div>
                 <div>
-                    <label>Difficulty:</label>
+                    <label>Difficulty</label>
                     <select name="difficulty" value={formData.difficulty} onChange={handleChange} required>
                         <option value="">Select Difficulty</option>
                         <option value="Easy">Easy</option>
@@ -123,67 +103,30 @@ function QuizCreatePage() {
                         <option value="Hard">Hard</option>
                     </select>
                 </div>
-                <div>
-                    <label>Duration (Minutes):</label>
-                    <input type="number" name="duration_minutes" value={formData.duration_minutes} onChange={handleChange} required />
-                </div>
+
+                <Input
+                    name="duration_minutes"
+                    value={formData.duration_minutes}
+                    label="Duration (minutes)"
+                    onChange={handleChange}
+                    type="text"
+                />
                 <div>
                     <label>Is Public:</label>
-                    <input type="checkbox" name="isPublic" checked={formData.isPublic} onChange={handleChange} />
+                    <input 
+                        type="checkbox" 
+                        name="isPublic" 
+                        checked={formData.isPublic} 
+                        onChange={handleChange} 
+                    />
                 </div>
-                <div>
-                    <p>Total Questions: {formData.questions.length}</p>
-                    <button type="button" onClick={handleAddQuestion}>Add Question</button>
-                    {formData.questions.map((question, index) => (
-                        <div key={index}>
-                            <label>Question {index + 1}:</label>
-                            <input
-                                type="text"
-                                name={`questions[${index}].question`}
-                                value={formData.questions[index].question}
-                                onChange={(e) => handleQuestionChange(e, index, 'question')}
-                                required
-                            />
-                            <div>
-                                <label>Correct Answer:</label>
-                                <input
-                                    type="text"
-                                    name={`questions[${index}].correct_answer`}
-                                    value={formData.questions[index].correct_answer}
-                                    onChange={(e) => handleQuestionChange(e, index, 'correct_answer')}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Incorrect Answers:</label>
-                                <input
-                                    type="text"
-                                    name={`questions[${index}].incorrect_answers[0]`}
-                                    value={formData.questions[index].incorrect_answers[0]}
-                                    onChange={(e) => handleQuestionChange(e, index, 'incorrect_answers', 0)}
-                                    required
-                                />
-                                <input
-                                    type="text"
-                                    name={`questions[${index}].incorrect_answers[1]`}
-                                    value={formData.questions[index].incorrect_answers[1]}
-                                    onChange={(e) => handleQuestionChange(e, index, 'incorrect_answers', 1)}
-                                    required
-                                />
-                                <input
-                                    type="text"
-                                    name={`questions[${index}].incorrect_answers[2]`}
-                                    value={formData.questions[index].incorrect_answers[2]}
-                                    onChange={(e) => handleQuestionChange(e, index, 'incorrect_answers', 2)}
-                                    required
-                                />
-                            </div>
-                            <button type="button" onClick={() => handleRemoveQuestion(index)}>Remove</button>
-                        </div>
-                    ))}
-                </div>
-                <button type="submit">Submit</button>
+                <Question
+                    questions={formData.questions}
+                    setFormData={setFormData}
+                />
+                <Button varient="primary" type="submit">Submit</Button>
             </form>
+
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Quiz Updated</Modal.Title>
