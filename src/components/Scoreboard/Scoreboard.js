@@ -1,16 +1,20 @@
-
+import { useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
-
     const { userId } = useParams();
 
+    useEffect(() => {
+        if (showModal) {
+            updateUserScore();
+        }
+    }, [showModal]); // Update score when modal is shown
 
     const totalQuestions = quizData.length;
-    const percentage = ((score / totalQuestions) * 100).toFixed(0);
+    const percentage = ((score / (totalQuestions * 100)) * 100).toFixed(0);
 
-    // Calculate correct and incorrect answers
     let correctAnswers = 0;
     let incorrectAnswers = 0;
     for (let i = 0; i < totalQuestions; i++) {
@@ -23,7 +27,6 @@ function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
         }
     }
 
-    // Define message and emoji based on percentage
     let message;
     let emoji;
     if (percentage >= 80) {
@@ -43,7 +46,17 @@ function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
         emoji = "😕";
     }
 
+    const updateUserScore = async () => {
+        try {
+            await axios.put(`http://localhost:8080/api/users/${userId}`, {
+                score: score, 
+            });
+        } catch (error) {
+            console.error('Error updating user score:', error);
+        }
+    };
 
+    console.log(userId)
     return (
         <Modal show={showModal} onHide={() => setShowModal(false)}>
             <Modal.Header closeButton>
@@ -77,6 +90,7 @@ function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
 }
 
 export default Scoreboard;
+
 
 
 

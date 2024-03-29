@@ -6,7 +6,7 @@ function QuizDetailsPage() {
     const [quiz, setQuiz] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { quizId } = useParams();
+    const { userId, quizId } = useParams();
 
     useEffect(() => {
         const fetchQuizDetails = async () => {
@@ -56,7 +56,7 @@ function QuizDetailsPage() {
 
             {/* Action Section */}
             <section className="quiz-actions">
-                <Link to={`/quizzes/${quizId}/play`}>
+                <Link to={`/${userId}/quizzes/${quizId}/play`}>
                     <button className="start-quiz-button">Start Quiz</button>
                 </Link>
             </section>

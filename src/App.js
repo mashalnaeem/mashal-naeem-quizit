@@ -44,7 +44,7 @@ function App() {
           <Route path="/:userId/quizzes/:quizId" element={<QuizDetailsPage />} />
           <Route path="/:userId/create" element={<QuizCreatePage />} />
           <Route path="/:userId/user_quizzes" element={<UserQuizPage />} />
-          <Route path="/quizzes/:quizId/play" element={<QuizPlayPage />} />
+          <Route path="/:userId/quizzes/:quizId/play" element={<QuizPlayPage />} />
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>
