@@ -36,26 +36,29 @@ function QuizPlayPage() {
             }
         };
         fetchQuizData();
-        
+
     }, [quizId]);
 
     useEffect(() => {
-        if (quizData.length > 0) {
-            const interval = setInterval(() => {
-                setTimeRemaining(prevTime => {
-                    if (prevTime > 0) {
-                        return prevTime - 1;
-                    } else {
-                        clearInterval(interval);
-                        handleAnswer(null);
-                        return 0;
-                    }
-                });
-            }, 1000);
-            setTimerInterval(interval);
-        }
-        return () => clearInterval(timerInterval);
-    }, [quizData, currentQuestionIndex]);
+        // Start the timer interval when the component is mounted
+        const interval = setInterval(() => {
+            setTimeRemaining(prevTime => {
+                if (prevTime > 0) {
+                    return prevTime - 1;
+                    
+                } else {
+                    clearInterval(interval); 
+                    handleAnswer(null); 
+                    return 0;
+                }
+            });
+        }, 1000);
+        setTimerInterval(interval); 
+
+        // Cleanup function to clear interval when component unmounts
+        return () => clearInterval(interval);
+    }, []);
+
 
     const handleAnswer = (selectedOption) => {
         clearInterval(timerInterval); // Clear the timer interval to freeze the timer
@@ -67,7 +70,7 @@ function QuizPlayPage() {
 
         const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
         if (selectedOption === correctAnswer) {
-            setScore(prevScore => prevScore + 1);
+            setScore(prevScore => prevScore + 100);
             setShowFeedback(true);
             setFeedbackMessage('Correct!');
         } else {
@@ -129,12 +132,17 @@ function QuizPlayPage() {
             >
                 {currentQuestionIndex < quizData.length - 1 ? 'Next Question' : 'Finish Quiz'}
             </button>
+            {/* Show the score */}
+            <div>
+                <h4>Score: {score}</h4>
+            </div>
 
             <Scoreboard
                 score={score}
                 quizData={quizData}
                 showModal={showModal}
                 setShowModal={setShowModal}
+                userAnswers={userAnswers}
             />
         </div>
     );

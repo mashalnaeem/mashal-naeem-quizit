@@ -2,7 +2,7 @@
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 
-function Scoreboard({ score, quizData, showModal, setShowModal }) {
+function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
 
     const { userId } = useParams();
 
@@ -10,6 +10,18 @@ function Scoreboard({ score, quizData, showModal, setShowModal }) {
     const totalQuestions = quizData.length;
     const percentage = ((score / totalQuestions) * 100).toFixed(0);
 
+    // Calculate correct and incorrect answers
+    let correctAnswers = 0;
+    let incorrectAnswers = 0;
+    for (let i = 0; i < totalQuestions; i++) {
+        const correctAnswer = quizData[i].correct_answer;
+        const userAnswer = userAnswers[i];
+        if (userAnswer === correctAnswer) {
+            correctAnswers++;
+        } else {
+            incorrectAnswers++;
+        }
+    }
 
     // Define message and emoji based on percentage
     let message;
@@ -40,10 +52,10 @@ function Scoreboard({ score, quizData, showModal, setShowModal }) {
             <Modal.Body>
                 <h5>Score: {score}</h5>
                 <p>Total Questions: {totalQuestions}</p>
-                {/* <p>Correct Answers: {correctAnswers}</p>
-                <p>Incorrect Answers: {incorrectAnswers}</p> */}
+                <p>Correct Answers: {correctAnswers}</p>
+                <p>Incorrect Answers: {incorrectAnswers}</p>
                 <p>Percentage: {percentage}%</p>
-                <p>{message}</p>
+                <p>{message} <span role="img" aria-label="emoji">{emoji}</span></p>
             </Modal.Body>
             <Modal.Footer>
                 <Link to={`/${userId}/profile`}>
