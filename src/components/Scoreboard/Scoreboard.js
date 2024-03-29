@@ -1,6 +1,4 @@
 
-
-import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 
@@ -56,7 +54,7 @@ function Scoreboard({ score, quizData, showModal, setShowModal }) {
                 <Button variant="primary" onClick={() => window.location.reload()}>
                     Play Again
                 </Button>
-                <Link to="/quizzes">
+                <Link to={`/${userId}/quizzes`}>
                     <Button variant="primary">
                         Play Other Quiz
                     </Button>

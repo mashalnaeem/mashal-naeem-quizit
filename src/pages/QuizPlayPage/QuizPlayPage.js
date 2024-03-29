@@ -36,48 +36,46 @@ function QuizPlayPage() {
             }
         };
         fetchQuizData();
+        
     }, [quizId]);
 
     useEffect(() => {
-        // Start the timer interval when quiz data is loaded
         if (quizData.length > 0) {
             const interval = setInterval(() => {
                 setTimeRemaining(prevTime => {
                     if (prevTime > 0) {
                         return prevTime - 1;
                     } else {
-                        clearInterval(interval); // Clear the interval when time runs out
-                        handleAnswer(null); // Automatically handle answer when time runs out
+                        clearInterval(interval);
+                        handleAnswer(null);
                         return 0;
                     }
                 });
             }, 1000);
-            setTimerInterval(interval); // Save the interval to state variable
+            setTimerInterval(interval);
         }
-        return () => clearInterval(timerInterval); // Cleanup function to clear interval when component unmounts
+        return () => clearInterval(timerInterval);
     }, [quizData, currentQuestionIndex]);
 
     const handleAnswer = (selectedOption) => {
         clearInterval(timerInterval); // Clear the timer interval to freeze the timer
-        if (selectedOption === null) {
-            selectedOption = "Time's up!";
-        }
+
         setUserAnswers(prevState => ({
             ...prevState,
             [currentQuestionIndex]: selectedOption
         }));
-    
+
         const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
         if (selectedOption === correctAnswer) {
             setScore(prevScore => prevScore + 1);
-            setShowFeedback(true); 
+            setShowFeedback(true);
             setFeedbackMessage('Correct!');
         } else {
             setShowFeedback(true);
             setFeedbackMessage(selectedOption === "Time's up!" ? "Time's up!" : 'Incorrect!');
             setShowCorrectAnswer(true);
         }
-    };    
+    };
 
     const handleNextQuestion = () => {
         if (!quizData || quizData.length === 0) {
@@ -91,7 +89,6 @@ function QuizPlayPage() {
             setShowFeedback(false);
             setShowCorrectAnswer(false);
         } else {
-            // If there are no more questions, show the modal
             setShowModal(true);
         }
     };
@@ -133,7 +130,6 @@ function QuizPlayPage() {
                 {currentQuestionIndex < quizData.length - 1 ? 'Next Question' : 'Finish Quiz'}
             </button>
 
-            {/* Scoreboard Modal */}
             <Scoreboard
                 score={score}
                 quizData={quizData}
