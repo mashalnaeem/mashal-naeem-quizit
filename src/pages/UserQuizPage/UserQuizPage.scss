@@ -1,0 +1,49 @@
+.user-quiz {
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    &__card {
+        width: 200px;
+        height: 250px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 10px;
+        perspective: 1000px;
+        /* Add perspective for 3D effect */
+    }
+}
+
+.front, .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden; /* Hide backface of the cards */
+}
+
+.front {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    z-index: 2;
+}
+
+.back {
+    display: none;
+    transform: rotateY(180deg); /* Initial flip to hide back side */
+}
+
+.flipped .front {
+    transform: rotateY(-180deg); /* Flip front side */
+}
+
+.flipped .back {
+    display: block;
+    transform: rotateY(0deg); /* Show back side */
+}
