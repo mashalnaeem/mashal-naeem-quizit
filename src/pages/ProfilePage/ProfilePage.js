@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
 
 import editIcon from '../../assets/icons/edit-24px.svg';
 
@@ -32,19 +34,41 @@ function ProfilePage({ handleShow }) {
   }, [userId]);
 
   const handleLogout = async () => {
-    try {
-      await axios.post('/api/user/logout');
-      setUser(null);
-      setError('');
-      window.location.href = '/login';
-    } catch (error) {
-      setError('Error logging out. Please try again.');
-    }
+    sessionStorage.clear();
+    navigate('/login');
   };
 
   const handleEditProfile = () => {
     navigate(`/${userId}/profile/edit`);
     handleShow();
+  };
+
+  // Highcharts configuration options
+  const options = {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'User Score vs Quizzes Played'
+    },
+    xAxis: {
+      categories: ['Quizzes Played']
+    },
+    yAxis: {
+      title: {
+        text: 'Current Score'
+      }
+    },
+    series: [
+      {
+        name: 'Current Score',
+        data: [user?.current_score || 0]
+      },
+      {
+        name: 'Quizzes Played',
+        data: [user?.quizzes_played]
+      }
+    ]
   };
 
   return (
@@ -60,7 +84,6 @@ function ProfilePage({ handleShow }) {
           <p>
             <strong>Email:</strong> {user.email}
           </p>
-
           {/* Display user's score and number of quizzes attempted */}
           <p>
             <strong>Current Score:</strong> {user.current_score}
@@ -68,7 +91,9 @@ function ProfilePage({ handleShow }) {
           <p>
             <strong>Total Score:</strong> {user.total_score}
           </p>
-          <p><strong>Quizzes Attempted:</strong> {user.quizzes_played}</p>
+          <p>
+            <strong>Quizzes Attempted:</strong> {user.quizzes_played}
+          </p>
           <Button variant="primary" onClick={handleLogout}>Logout</Button>
           <Link to={`/${userId}/user_quizzes`}>
             <Button variant="primary">My Quizzes</Button>
@@ -79,6 +104,8 @@ function ProfilePage({ handleShow }) {
           <Link to={`/${userId}/create`}>
             <Button variant="primary">Create Quiz</Button>
           </Link>
+          {/* Highcharts chart */}
+          <HighchartsReact highcharts={Highcharts} options={options} />
         </div>
       )}
     </div>
