@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
 import editIcon from '../../assets/icons/edit-24px.svg';
+import deleteIcon from '../../assets/icons/delete_outline-24px.svg'
 
 function ProfilePage({ handleShow }) {
   const { userId } = useParams();
@@ -13,6 +14,7 @@ function ProfilePage({ handleShow }) {
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -41,6 +43,30 @@ function ProfilePage({ handleShow }) {
   const handleEditProfile = () => {
     navigate(`/${userId}/profile/edit`);
     handleShow();
+  };
+
+  const handleDeleteProfile = async () => {
+    try {
+      // Delete user from the database
+      await axios.delete(`http://localhost:8080/api/users/${userId}`);
+
+      // Clear sessionStorage
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('userId');
+
+      // Show modal
+      setShowModal(true);
+
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      // Handle error
+    }
+  };
+
+  const handleCloseModal = () => {
+
+    setShowModal(false);
+    navigate('/login');
   };
 
   // Highcharts configuration options
@@ -74,6 +100,7 @@ function ProfilePage({ handleShow }) {
   return (
     <div className="profile-container">
       <img src={editIcon} alt="Edit Profile" className="edit-icon" onClick={handleEditProfile} />
+      <img src={deleteIcon} alt="Edit Profile" className="edit-icon" onClick={handleDeleteProfile} />
       <h2>User Profile</h2>
       {error && <p className="error-message">{error}</p>}
       {user && (
@@ -106,6 +133,19 @@ function ProfilePage({ handleShow }) {
           </Link>
           {/* Highcharts chart */}
           <HighchartsReact highcharts={Highcharts} options={options} />
+
+          {/* Modal */}
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header>
+              <Modal.Title>User Deleted</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>The user has been successfully deleted.</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>Go To Login</Button>
+            </Modal.Footer>
+          </Modal>
         </div>
       )}
     </div>
