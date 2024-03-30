@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Scoreboard from '../../components/Scoreboard/Scoreboard';
 import shuffleArray from '../../utils/shuffleArray';
@@ -15,7 +15,7 @@ function QuizPlayPage() {
     const [showFeedback, setShowFeedback] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
-    const [timerInterval, setTimerInterval] = useState(null);
+    const [timerInterval, setTimerInterval] = useState(null); // Define timerInterval state
     const [quizCompleted, setQuizCompleted] = useState(false);
 
     const { quizId } = useParams();
@@ -31,61 +31,54 @@ function QuizPlayPage() {
                 setQuizData(shuffledData);
                 setLoading(false);
                 setTimeRemaining(30);
+
             } catch (error) {
                 console.error('Error fetching quiz data:', error);
             }
         };
         fetchQuizData();
-
     }, [quizId]);
 
     useEffect(() => {
-        // Start the timer interval when the component is mounted
         const interval = setInterval(() => {
             setTimeRemaining(prevTime => {
                 if (prevTime > 0) {
                     return prevTime - 1;
-                    
                 } else {
-                    clearInterval(interval); 
-                    handleAnswer(null); 
+                    clearInterval(timerInterval);
+                    handleAnswer("Time's up!"); // Trigger handleAnswer with "Time's up!" when time runs out
                     return 0;
                 }
             });
         }, 1000);
-        setTimerInterval(interval); 
-
-        // Cleanup function to clear interval when component unmounts
+        setTimerInterval(interval);
+    
         return () => clearInterval(interval);
-    }, []);
-
-
+    }, [currentQuestionIndex, quizData]);
+    
     const handleAnswer = (selectedOption) => {
-        clearInterval(timerInterval); // Clear the timer interval to freeze the timer
+        const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
+        if (selectedOption === correctAnswer) {
+            setScore(prevScore => prevScore + 100);
+            setShowFeedback(true);
+            setFeedbackMessage('Correct!');
+
+        } else {
+            setShowFeedback(true);
+            setFeedbackMessage(selectedOption === "Time's up!" ? "Time's up!" : 'Incorrect!');
+            setShowCorrectAnswer(true);
+        }
 
         setUserAnswers(prevState => ({
             ...prevState,
             [currentQuestionIndex]: selectedOption
         }));
 
-        const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
-        if (selectedOption === correctAnswer) {
-            setScore(prevScore => prevScore + 100);
-            setShowFeedback(true);
-            setFeedbackMessage('Correct!');
-        } else {
-            setShowFeedback(true);
-            setFeedbackMessage(selectedOption === "Time's up!" ? "Time's up!" : 'Incorrect!');
-            setShowCorrectAnswer(true);
-        }
+        // Freeze the timer when an answer is clicked
+        clearInterval(timerInterval); // Access timerInterval from state
     };
 
     const handleNextQuestion = () => {
-        if (!quizData || quizData.length === 0) {
-            console.error('Quiz data is undefined or empty.');
-            return;
-        }
-
         if (currentQuestionIndex < quizData.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
             setTimeRemaining(30);

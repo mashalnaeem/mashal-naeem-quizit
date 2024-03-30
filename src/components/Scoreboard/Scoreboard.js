@@ -1,18 +1,13 @@
 import "./Scoreboard.scss"
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
-    const { userId } = useParams();
 
-    useEffect(() => {
-        if (quizCompleted) {
-            updateUserScore();
-        }
-    }, [quizCompleted]);       
+    const { userId } = useParams();
 
     const totalQuestions = quizData.length;
     const percentage = ((score / (totalQuestions * 100)) * 100).toFixed(0);
@@ -48,6 +43,12 @@ function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
         emoji = "😕";
     }
 
+    useEffect(() => {
+        if (quizCompleted) {
+            updateUserScore();
+        }
+    }, [quizCompleted]);  
+
     const updateUserScore = async () => {
         try {
             await axios.put(`http://localhost:8080/api/users/${userId}`, {
@@ -60,25 +61,25 @@ function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
 
     return (
         <div className="scoreboard-overlay">
-        <div className="scoreboard-content">
-          <h2>Quiz Score</h2>
-          <h5>Score: {score}</h5>
-          <p>Total Questions: {totalQuestions}</p>
-          <p>Correct Answers: {correctAnswers}</p>
-          <p>Incorrect Answers: {incorrectAnswers}</p>
-          <p>Percentage: {percentage}%</p>
-          <p>{message} <span role="img" aria-label="emoji">{emoji}</span></p>
-          <div className="buttons">
-            <Link to={`/${userId}/profile`}>
-              <button className="secondary">Close</button>
-            </Link>
-            <button onClick={() => window.location.reload()}>Play Again</button>
-            <Link to={`/${userId}/quizzes`}>
-              <button>Play Other Quiz</button>
-            </Link>
-          </div>
+            <div className="scoreboard-content">
+                <h2>Quiz Score</h2>
+                <h5>Score: {score}</h5>
+                <p>Total Questions: {totalQuestions}</p>
+                <p>Correct Answers: {correctAnswers}</p>
+                <p>Incorrect Answers: {incorrectAnswers}</p>
+                <p>Percentage: {percentage}%</p>
+                <p>{message} <span role="img" aria-label="emoji">{emoji}</span></p>
+                <div className="buttons">
+                    <Link to={`/${userId}/profile`}>
+                        <button className="secondary">Close</button>
+                    </Link>
+                    <button onClick={() => window.location.reload()}>Play Again</button>
+                    <Link to={`/${userId}/quizzes`}>
+                        <button>Play Other Quiz</button>
+                    </Link>
+                </div>
+            </div>
         </div>
-      </div>
     );
 }
 
