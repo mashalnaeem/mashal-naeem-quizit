@@ -5,8 +5,10 @@ import { Button, Toast } from 'react-bootstrap';
 
 import Input from "../../components/Input/Input"
 
-const ProfileEditPage = () => {
+function ProfileEditPage() {
+
     const { userId } = useParams();
+    
     const [formData, setFormData] = useState({
         username: '',
         email: '',

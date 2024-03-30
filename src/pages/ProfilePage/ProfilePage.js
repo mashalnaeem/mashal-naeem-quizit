@@ -8,7 +8,7 @@ import HighchartsReact from 'highcharts-react-official';
 import editIcon from '../../assets/icons/edit-24px.svg';
 import deleteIcon from '../../assets/icons/delete_outline-24px.svg'
 
-function ProfilePage({ handleShow }) {
+function ProfilePage() {
   const { userId } = useParams();
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ function ProfilePage({ handleShow }) {
 
   const handleEditProfile = () => {
     navigate(`/${userId}/profile/edit`);
-    handleShow();
+    // handleShow();
   };
 
   const handleDeleteProfile = async () => {

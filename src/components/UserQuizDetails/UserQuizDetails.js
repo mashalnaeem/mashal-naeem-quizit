@@ -65,7 +65,7 @@ const UserQuizDetails = ({ userId, quizId }) => {
       <p>Category: {quiz.category}</p>
       <p>Time (Mintues): {quiz.duration_minutes}</p>
       <p>Settings: {quiz.is_public ? "Public" : "Private"}</p>
-      <Link to={`/${userId}quiz/${quizId}/broadcast_play`}><Button variant="primary">Broadcast Play</Button></Link>
+      <Link to={`/${userId}/user_quizzes/${quizId}/broadcast_play`}><Button variant="primary">Broadcast Play</Button></Link>
       
       {/* Modal for success message */}
       <Modal show={showModal} onHide={handleCloseModal}>
