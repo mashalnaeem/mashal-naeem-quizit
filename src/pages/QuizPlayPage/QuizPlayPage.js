@@ -15,8 +15,8 @@ function QuizPlayPage() {
     const [showFeedback, setShowFeedback] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
-    const [showModal, setShowModal] = useState(false);
     const [timerInterval, setTimerInterval] = useState(null);
+    const [quizCompleted, setQuizCompleted] = useState(false);
 
     const { quizId } = useParams();
 
@@ -92,7 +92,7 @@ function QuizPlayPage() {
             setShowFeedback(false);
             setShowCorrectAnswer(false);
         } else {
-            setShowModal(true);
+            setQuizCompleted(true);
         }
     };
 
@@ -137,13 +137,14 @@ function QuizPlayPage() {
                 <h4>Score: {score}</h4>
             </div>
 
-            <Scoreboard
-                score={score}
-                quizData={quizData}
-                showModal={showModal}
-                setShowModal={setShowModal}
-                userAnswers={userAnswers}
-            />
+            {quizCompleted && (
+                <Scoreboard
+                    score={score}
+                    quizData={quizData}
+                    quizCompleted={quizCompleted}
+                    userAnswers={userAnswers}
+                />
+            )}
         </div>
     );
 }

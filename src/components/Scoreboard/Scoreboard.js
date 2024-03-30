@@ -1,16 +1,18 @@
+import "./Scoreboard.scss"
+
 import { useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
+function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
     const { userId } = useParams();
 
     useEffect(() => {
-        if (showModal) {
+        if (quizCompleted) {
             updateUserScore();
         }
-    }, [showModal]); // Update score when modal is shown
+    }, [quizCompleted]);       
 
     const totalQuestions = quizData.length;
     const percentage = ((score / (totalQuestions * 100)) * 100).toFixed(0);
@@ -57,34 +59,26 @@ function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
     };
 
     return (
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-            <Modal.Header closeButton>
-                <Modal.Title>Quiz Score</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <h5>Score: {score}</h5>
-                <p>Total Questions: {totalQuestions}</p>
-                <p>Correct Answers: {correctAnswers}</p>
-                <p>Incorrect Answers: {incorrectAnswers}</p>
-                <p>Percentage: {percentage}%</p>
-                <p>{message} <span role="img" aria-label="emoji">{emoji}</span></p>
-            </Modal.Body>
-            <Modal.Footer>
-                <Link to={`/${userId}/profile`}>
-                    <Button variant="secondary">
-                        Close
-                    </Button>
-                </Link>
-                <Button variant="primary" onClick={() => window.location.reload()}>
-                    Play Again
-                </Button>
-                <Link to={`/${userId}/quizzes`}>
-                    <Button variant="primary">
-                        Play Other Quiz
-                    </Button>
-                </Link>
-            </Modal.Footer>
-        </Modal>
+        <div className="scoreboard-overlay">
+        <div className="scoreboard-content">
+          <h2>Quiz Score</h2>
+          <h5>Score: {score}</h5>
+          <p>Total Questions: {totalQuestions}</p>
+          <p>Correct Answers: {correctAnswers}</p>
+          <p>Incorrect Answers: {incorrectAnswers}</p>
+          <p>Percentage: {percentage}%</p>
+          <p>{message} <span role="img" aria-label="emoji">{emoji}</span></p>
+          <div className="buttons">
+            <Link to={`/${userId}/profile`}>
+              <button className="secondary">Close</button>
+            </Link>
+            <button onClick={() => window.location.reload()}>Play Again</button>
+            <Link to={`/${userId}/quizzes`}>
+              <button>Play Other Quiz</button>
+            </Link>
+          </div>
+        </div>
+      </div>
     );
 }
 
