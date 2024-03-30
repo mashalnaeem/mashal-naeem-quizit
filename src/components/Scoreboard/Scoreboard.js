@@ -49,14 +49,13 @@ function Scoreboard({ score, quizData, userAnswers, showModal, setShowModal }) {
     const updateUserScore = async () => {
         try {
             await axios.put(`http://localhost:8080/api/users/${userId}`, {
-                score: score, 
+                current_score: score,
             });
         } catch (error) {
             console.error('Error updating user score:', error);
         }
     };
 
-    console.log(userId)
     return (
         <Modal show={showModal} onHide={() => setShowModal(false)}>
             <Modal.Header closeButton>

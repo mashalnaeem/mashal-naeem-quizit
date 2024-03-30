@@ -54,15 +54,31 @@ function ProfilePage({ handleShow }) {
       {error && <p className="error-message">{error}</p>}
       {user && (
         <div>
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Email:</strong> {user.email}</p>
+          <p>
+            <strong>Username:</strong> {user.username}
+          </p>
+          <p>
+            <strong>Email:</strong> {user.email}
+          </p>
+
           {/* Display user's score and number of quizzes attempted */}
-          <p><strong>Score:</strong> {user.score}</p>
+          <p>
+            <strong>Current Score:</strong> {user.current_score}
+          </p>
+          <p>
+            <strong>Total Score:</strong> {user.total_score}
+          </p>
           <p><strong>Quizzes Attempted:</strong> {user.quizzes_played}</p>
           <Button variant="primary" onClick={handleLogout}>Logout</Button>
-          <Link to={`/${userId}/user_quizzes`}><Button variant="primary">My Quizzes</Button></Link>
-          <Link to={`/${userId}/quizzes`}><Button variant="primary">Explore Quizzes</Button></Link>
-          <Link to={`/${userId}/create`}><Button variant="primary">Create Quiz</Button></Link>
+          <Link to={`/${userId}/user_quizzes`}>
+            <Button variant="primary">My Quizzes</Button>
+          </Link>
+          <Link to={`/${userId}/quizzes`}>
+            <Button variant="primary">Explore Quizzes</Button>
+          </Link>
+          <Link to={`/${userId}/create`}>
+            <Button variant="primary">Create Quiz</Button>
+          </Link>
         </div>
       )}
     </div>
