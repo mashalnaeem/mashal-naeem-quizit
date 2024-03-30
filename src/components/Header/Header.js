@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import "./Header.scss";
 import logo from "../../assets/logo/logo.svg";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header() {
+
+  const navigate = useNavigate();
+
   const [isDarkMode, setIsDarkMode] = useState(false); // State for dark mode
 
   const toggleDarkMode = () => {
@@ -25,6 +28,11 @@ function Header() {
   // Check if the JWT token is present in session storage
   const isLoggedIn = sessionStorage.getItem('token') !== null;
   const userId = sessionStorage.getItem('userId');
+
+  const handleLogout = async () => {
+    sessionStorage.clear();
+    navigate('/login');
+  };
 
   return (
     <header className={`header ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -49,7 +57,7 @@ function Header() {
             <Link className="nav__link" to={`/${userId}/profile`}>Profile</Link>
           </li>}
           {isLoggedIn && <li className="nav__item">
-            <Link className="nav__link" to="/logout">Logout</Link>
+            <button className="nav__link" onClick={handleLogout}>Logout</button>
           </li>}
           <li className="nav__item">
             <button className="nav__link" onClick={toggleDarkMode}>

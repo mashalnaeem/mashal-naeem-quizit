@@ -56,7 +56,7 @@ function QuizCreatePage({ mode }) {
         }));
     };
 
-     const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             let response;
@@ -82,7 +82,7 @@ function QuizCreatePage({ mode }) {
 
     return (
         <div>
-           <h2>{mode === 'edit' ? 'Edit Quiz' : 'Create User Quiz'}</h2>
+            <h2>{mode === 'edit' ? 'Edit Quiz' : 'Create User Quiz'}</h2>
             <form onSubmit={handleSubmit}>
 
                 <Input
@@ -118,7 +118,7 @@ function QuizCreatePage({ mode }) {
                             value={formData.otherCategory}
                             onChange={handleChange}
                             type="text"
-                       />
+                        />
                     )}
                 </div>
                 <div>
@@ -140,11 +140,11 @@ function QuizCreatePage({ mode }) {
                 />
                 <div>
                     <label>Is Public:</label>
-                    <input 
-                        type="checkbox" 
-                        name="isPublic" 
-                        checked={formData.isPublic} 
-                        onChange={handleChange} 
+                    <input
+                        type="checkbox"
+                        name="isPublic"
+                        checked={formData.isPublic}
+                        onChange={handleChange}
                     />
                 </div>
                 <Question
@@ -156,15 +156,16 @@ function QuizCreatePage({ mode }) {
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header>
-                    <Modal.Title>Quiz Updated</Modal.Title>
+                    <Modal.Title>{formData._id ? 'Quiz Updated' : 'Quiz Created'}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <p>The quiz has been successfully updated.</p>
+                    <p>The quiz has been successfully {formData._id ? 'updated' : 'created'}.</p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>Go to My Quizzes</Button>
                 </Modal.Footer>
             </Modal>
+
         </div>
     );
 }
