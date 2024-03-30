@@ -1,12 +1,9 @@
-import "./Scoreboard.scss"
-
-import { useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import "./Scoreboard.scss";
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
-
     const { userId } = useParams();
 
     const totalQuestions = quizData.length;
@@ -43,12 +40,6 @@ function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
         emoji = "😕";
     }
 
-    useEffect(() => {
-        if (quizCompleted) {
-            updateUserScore();
-        }
-    }, [quizCompleted]);  
-
     const updateUserScore = async () => {
         try {
             await axios.put(`http://localhost:8080/api/users/${userId}`, {
@@ -58,6 +49,12 @@ function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
             console.error('Error updating user score:', error);
         }
     };
+
+    useEffect(() => {
+        if (quizCompleted) {
+            updateUserScore();
+        }
+    }, [quizCompleted, score]);  
 
     return (
         <div className="scoreboard-overlay">
@@ -84,7 +81,3 @@ function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
 }
 
 export default Scoreboard;
-
-
-
-

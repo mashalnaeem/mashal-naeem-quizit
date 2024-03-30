@@ -15,7 +15,7 @@ function QuizPlayPage() {
     const [showFeedback, setShowFeedback] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
-    const [timerInterval, setTimerInterval] = useState(null); // Define timerInterval state
+    const [timerInterval, setTimerInterval] = useState(null);
     const [quizCompleted, setQuizCompleted] = useState(false);
 
     const { quizId } = useParams();
@@ -52,10 +52,10 @@ function QuizPlayPage() {
             });
         }, 1000);
         setTimerInterval(interval);
-    
+
         return () => clearInterval(interval);
     }, [currentQuestionIndex, quizData]);
-    
+
     const handleAnswer = (selectedOption) => {
         const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
         if (selectedOption === correctAnswer) {
@@ -134,8 +134,8 @@ function QuizPlayPage() {
                 <Scoreboard
                     score={score}
                     quizData={quizData}
-                    quizCompleted={quizCompleted}
                     userAnswers={userAnswers}
+                    quizCompleted={quizCompleted}
                 />
             )}
         </div>
