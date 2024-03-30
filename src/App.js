@@ -42,7 +42,8 @@ function App() {
           <Route path="/:userId/profile/edit" element={<ProfileEditPage howModal={showModal} handleClose={handleClose} />} />
           <Route path="/:userId/quizzes" element={<QuizListPage />} />
           <Route path="/:userId/quizzes/:quizId" element={<QuizDetailsPage />} />
-          <Route path="/:userId/create" element={<QuizCreatePage />} />
+          <Route path="/:userId/create" element={<QuizCreatePage mode="add" />} />
+          <Route path="/:userId/user_quizzes/edit/:quizId" element={<QuizCreatePage mode="edit" />} />
           <Route path="/:userId/user_quizzes" element={<UserQuizPage />} />
           <Route path="/:userId/quizzes/:quizId/play" element={<QuizPlayPage />} />
         </Routes>

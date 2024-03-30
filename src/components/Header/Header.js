@@ -24,7 +24,7 @@ function Header() {
 
   // Check if the JWT token is present in session storage
   const isLoggedIn = sessionStorage.getItem('token') !== null;
-  const userId = sessionStorage.getItem('userId')
+  const userId = sessionStorage.getItem('userId');
 
   return (
     <header className={`header ${isDarkMode ? 'dark-mode' : ''}`}>

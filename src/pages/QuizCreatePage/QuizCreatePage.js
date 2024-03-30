@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 
 import Question from '../../components/Question/Question';
 import Input from '../../components/Input/Input';
 
 
-function QuizCreatePage() {
+function QuizCreatePage({ mode }) {
+
     const { userId } = useParams();
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
+    const location = useLocation();
 
+    const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState({
         userId: userId,
         title: '',
@@ -24,6 +26,25 @@ function QuizCreatePage() {
         questions: [{ question: '', correct_answer: '', incorrect_answers: ['', '', ''] }]
     });
 
+    useEffect(() => {
+        if (mode === 'edit') {
+
+            // Fetch quiz data if in edit mode, extract quiz ID from the URL
+            const quizId = location.pathname.split('/').pop();
+            fetchQuizData(quizId);
+        }
+    }, [mode, location.pathname]);
+
+    const fetchQuizData = async (quizId) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/user_quizzes/${userId}/${quizId}`);
+            setFormData(response.data);
+
+        } catch (error) {
+            console.error('Error fetching quiz data:', error);
+        }
+    };
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
@@ -35,15 +56,21 @@ function QuizCreatePage() {
         }));
     };
 
-    const handleSubmit = async (e) => {
+     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/api/user_quizzes/${userId}`, formData);
-            console.log('New user quiz created:', response.data);
+            let response;
+            if (formData._id) {
+                // Update quiz if quiz ID exists
+                response = await axios.put(`http://localhost:8080/api/user_quizzes/${userId}/${formData._id}`, formData);
+            } else {
+                // Create new quiz if quiz ID does not exist
+                response = await axios.post(`http://localhost:8080/api/user_quizzes/${userId}`, formData);
+            }
             setShowModal(true);
 
         } catch (error) {
-            console.error('Error creating user quiz:', error);
+            console.error('Error creating/updating quiz:', error);
             // Handle error, display error message, etc.
         }
     };
@@ -55,7 +82,7 @@ function QuizCreatePage() {
 
     return (
         <div>
-            <h2>Create User Quiz</h2>
+           <h2>{mode === 'edit' ? 'Edit Quiz' : 'Create User Quiz'}</h2>
             <form onSubmit={handleSubmit}>
 
                 <Input
@@ -109,7 +136,7 @@ function QuizCreatePage() {
                     value={formData.duration_minutes}
                     label="Duration (minutes)"
                     onChange={handleChange}
-                    type="text"
+                    type="number"
                 />
                 <div>
                     <label>Is Public:</label>
@@ -128,14 +155,14 @@ function QuizCreatePage() {
             </form>
 
             <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title>Quiz Updated</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>The quiz has been successfully updated.</p>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+                    <Button variant="secondary" onClick={handleCloseModal}>Go to My Quizzes</Button>
                 </Modal.Footer>
             </Modal>
         </div>

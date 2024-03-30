@@ -56,7 +56,7 @@ function UserQuizPage() {
                 </div>
             ))}
             <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
+                <Modal.Header>
                     <Modal.Title>Sorry, no quizzes found</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
