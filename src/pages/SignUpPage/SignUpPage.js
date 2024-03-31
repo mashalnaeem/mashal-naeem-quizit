@@ -1,14 +1,12 @@
-import "./SignUpPage.scss";
-
 import { useState } from 'react';
 import axios from 'axios';
 import Input from "../../components/Input/Input.js"
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from 'react-bootstrap';
-
 import ModalComponent from "../../components/ModalComponent/ModalComponent";
 
 function SignupPage() {
+
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -50,7 +48,7 @@ function SignupPage() {
   const handleInputBlur = (field) => {
 
     if (!field || !errors[field]) return;
-  
+    
     // Clear errors for input fields and the "Agree to Terms" checkbox
     if (field === 'agreeTerms' || errors[field]) {
       setErrors(prevErrors => ({ ...prevErrors, [field]: '' }));
@@ -58,9 +56,7 @@ function SignupPage() {
   };  
 
   const handleSignup = async (e) => {
-
     e.preventDefault();
-
     // Validate form fields //
     const newErrors = {};
     if (!fullName.trim()) {
@@ -93,27 +89,30 @@ function SignupPage() {
 
     // If no errors, proceed with form submission //
     if (Object.keys(newErrors).length === 0) {
-
       const userData = {
         fullName,
         username,
         email,
         password,
       };
-
       try {
         const response = await axios.post('http://localhost:8080/api/users/register', userData);
         setShowModal(true);
 
       } catch (error) {
         console.error('Signup error:', error);
-        setErrorMessage('An error occurred during signup');
+
+        if (error.response && error.response.status === 400 && error.response.data.message === 'User with this email already exists') {
+          setErrorMessage('User already exists');
+
+        } else {
+          setErrorMessage('An error occurred during signup');
+        }
       }
     }
   };
 
-  const handleClick = () => {
-    
+  const handleClick = () => {   
     setShowModal(false);
     navigate("/login");
   }
@@ -122,6 +121,7 @@ function SignupPage() {
     <div className="form">
       <h1 className="form__title">Create Your Quiz-It Account</h1>
       <form className="form__body" onSubmit={handleSignup}>
+        
         <Input
           name="fullName"
           value={fullName}
@@ -205,13 +205,16 @@ function SignupPage() {
           Sign Up
         </Button>
 
+        {/* Error message */}
+        {errorMessage && <p className="form__error">{errorMessage}</p>}
+
         {/* Modal for successful signup */}
         <ModalComponent 
           show={showModal}
           onHide={() => setShowModal(false)}
           title="Signup Successful"
           body="Your account has been successfully created!"
-          closeButton="Go to Login"
+          primaryButton="Go to Login"
           onClick={handleClick} 
         />
       </form>

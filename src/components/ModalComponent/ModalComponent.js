@@ -1,10 +1,9 @@
-import "./ModalComponent.scss"
-import modalIcon from "../../assets/images/modal.svg"
+import "./ModalComponent.scss";
 
+import modalIcon from "../../assets/images/modal.svg";
 import { Modal, Button } from 'react-bootstrap';
 
 function ModalComponent({ show, onHide, title, body, closeButton, primaryButton, onClick }) {
-
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header className="modal__header">
@@ -15,15 +14,20 @@ function ModalComponent({ show, onHide, title, body, closeButton, primaryButton,
         {body}
       </Modal.Body>
       <Modal.Footer className="modal__footer">
-        <Button className="modal__button" variant="secondary" onClick={onHide}>
-          {closeButton}
-        </Button>
-        <Button className="modal__button" variant="primary" onClick={onClick}>
-          {primaryButton}
-        </Button>
+        {closeButton && (
+          <Button className="modal__button" variant="secondary" onClick={onHide}>
+            {closeButton}
+          </Button>
+        )}
+        {primaryButton && (
+          <Button className="modal__button" variant="primary" onClick={onClick}>
+            {primaryButton}
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );
 }
 
 export default ModalComponent;
+

@@ -1,8 +1,10 @@
 import "./LoginPage.scss";
+
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from "react-bootstrap";
+
 import Input from "../../components/Input/Input.js";
 
 function LoginPage() {
@@ -74,7 +76,6 @@ function LoginPage() {
   return (
     <div className="form">
       <h2 className="form__title">User Login</h2>
-      {error && <div className="form__error">{error}</div>}
       <form onSubmit={handleSubmit}>
         <Input
           name="email"
@@ -97,6 +98,7 @@ function LoginPage() {
           className={errors.password ? 'error' : ''}
         />
         {errors.password && <span className="form__error">{errors.password}</span>}
+        {error && <div className="form__error">{error}</div>}
 
         <Button className="form__button" type="submit">Login</Button>
         <p>Don't have an account? <Link to="/signup">Sign up</Link></p>

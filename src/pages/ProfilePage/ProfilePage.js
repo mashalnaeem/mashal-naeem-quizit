@@ -1,10 +1,13 @@
+import "./ProfilePage.scss";
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import BackIcon from '../../components/BackIcon/BackIcon';
+import ModalComponent from '../../components/ModalComponent/ModalComponent';
 
 import editIcon from '../../assets/icons/edit-24px.svg';
 import deleteIcon from '../../assets/icons/delete_outline-24px.svg'
@@ -100,7 +103,7 @@ function ProfilePage() {
 
   return (
     <div className="profile-container">
-       <BackIcon />
+      <BackIcon />
       <img src={editIcon} alt="Edit Profile" className="edit-icon" onClick={handleEditProfile} />
       <img src={deleteIcon} alt="Edit Profile" className="edit-icon" onClick={handleDeleteProfile} />
       <h2>User Profile</h2>
@@ -137,17 +140,14 @@ function ProfilePage() {
           <HighchartsReact highcharts={Highcharts} options={options} />
 
           {/* Modal */}
-          <Modal show={showModal} onHide={handleCloseModal}>
-            <Modal.Header>
-              <Modal.Title>User Deleted</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p>The user has been successfully deleted.</p>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseModal}>Go To Login</Button>
-            </Modal.Footer>
-          </Modal>
+          <ModalComponent 
+            show={showModal}
+            onHide={handleCloseModal}
+            title="User Deleted"
+            body="The user has been successfully deleted."
+            primaryButton="Go To Login"
+            onClick={handleCloseModal}
+          />
         </div>
       )}
     </div>
