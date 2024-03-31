@@ -49,9 +49,9 @@ function QuizList() {
       <h2 className="text-center quiz__title">Quiz List</h2>
       <Row className="justify-content-center">
         {quizzes.map((quiz, index) => (
-          <Col key={quiz.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+          <Col key={quiz.id} xs={12} sm={6} md={4} lg={6} xl={3} className="mb-4">
             <Card className="quiz__container" style={{ backgroundColor: colors[index % colors.length], position: 'relative' }}>
-              <Card.Body style={{ position: 'relative' }}>
+              <Card.Body className="quiz__card" style={{ position: 'relative' }}>
                 <Card.Title className="quiz__subtitle">{quiz.title}</Card.Title>
                 <Card.Subtitle className="quiz__text">Category: {quiz.category}</Card.Subtitle>
                 <Card.Text className="quiz__questions">Total Questions: {quiz.num_questions}</Card.Text>
