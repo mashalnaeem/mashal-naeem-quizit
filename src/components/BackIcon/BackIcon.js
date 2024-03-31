@@ -2,7 +2,8 @@
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 
-const BackIcon = () => {
+function BackIcon({ className }) {
+
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -10,7 +11,7 @@ const BackIcon = () => {
   };
 
   return (
-    <div className="back-icon" onClick={goBack}>
+    <div className={className} onClick={goBack}>
       <FaArrowLeft />
     </div>
   );

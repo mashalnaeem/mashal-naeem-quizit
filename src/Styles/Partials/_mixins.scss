@@ -60,17 +60,17 @@
 }
 
 @mixin input {
-	height: 36px;
-	width: 100%;
-	padding-left: 16px;
-	padding-right: 16px;
-	border-radius: 20px;
-	border: 1px rgba(78, 78, 78, 0.75) solid;
-	outline: none;
+    height: 36px;
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 20px;
+    border: 1px rgba(78, 78, 78, 0.75) solid;
+    outline: none;
 
-	&:focus {
-		border: 1px $blue solid;
-	}
+    &:focus {
+        border: 1px $blue solid;
+    }
 
     &::placeholder {
         @include text;
@@ -91,4 +91,14 @@
     background-repeat: no-repeat;
     background-size: 1rem;
     background-position: 0px;
+}
+
+@mixin container {
+    width: 90%;
+    padding: 20px;
+    margin: 1rem 0;
+    background-color: $white;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+    border: 1px solid $box-shadow;
 }

@@ -1,0 +1,90 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+
+.profile {
+    display: flex;
+    justify-content: center;
+
+    &__container {
+        position: relative;
+        @include container;
+        display: flex;
+        flex-direction: column;
+
+        @include tablet {
+            width: 75%;
+            padding: 2rem 2.5rem;
+        }
+
+        @include desktop {
+            width: 50%;
+        }
+
+    }
+
+    &__icons-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__icon {
+        margin-left: 0.75rem;
+    }
+
+    &__back {
+        position: absolute; 
+        top: 2%; 
+        left: 6%;
+
+        @include tablet {
+            top: 3.5%;
+        }
+    }
+
+    &__title {
+        @include subtitle;
+        padding-left: 0;
+
+        @include tablet {
+            font-size: 3rem;
+        }
+    }
+
+    &__text {
+        @include text;
+
+        @include tablet {
+            font-size: 1.25rem;
+        }
+    }
+
+    &__button-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        @include tablet {
+            justify-content: center;
+            margin: 2rem 0;
+        }
+    }
+
+    &__button {
+        @include button;
+        margin-bottom: 0.75rem;
+        width: 7rem;
+        background-color: $blue;
+
+        @include tablet {
+            margin-right: 1rem;
+            font-size: 0.75rem;
+        }
+    }
+
+    &__error {
+        @include error;
+        font-size: 0.75rem;
+    }
+}
