@@ -1,3 +1,5 @@
+import "./QuizDetailsPage.scss"
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
@@ -52,51 +54,52 @@ function QuizDetailsPage() {
     if (loading) {
         return <p>Loading quiz details...</p>;
     }
-
     if (error) {
         return <p>Error: {error}</p>;
     }
-
     if (!quiz) {
         return <p>No quiz details found.</p>;
     }
 
     return (
-        <div className="quiz-details">
-                    <BackIcon />
-            {/* Header Section */}
-            <header className="quiz-details-header">
-                <h1>{quiz.title}</h1>
-                {/* Add navigation links if needed */}
-            </header>
-    
+        <section className="details">
+            <div className="details__container">
+                <BackIcon className="profile__back" />
 
-            {/* Quiz Information Section */}
-            <section className="quiz-information">
-                <h2>Quiz Information</h2>
-                <p><strong>Description:</strong> {quiz.description}</p>
-                <p><strong>Duration:</strong> {quiz.duration_minutes} minutes</p>
-                <p><strong>Difficulty:</strong> {quiz.difficulty}</p>
-                <p><strong>Category:</strong> {quiz.category}</p>
-                <p><strong>Questions:</strong> {quiz.num_questions}</p>
-            </section>
+                {/* Header Section */}
+                <header className="details__box">
+                    <h1 className="details__title">{quiz.title}</h1>
+                    {/* Add navigation links if needed */}
+                </header>
 
-            {/* Action Section */}
-            <section className="quiz-actions">
-                <Link to={`/${userId}/quizzes/${quizId}/play`}>
-                    <button className="start-quiz-button">Start Quiz</button>
-                </Link>
-                {/* Display the quiz code and broadcast button */}
-                {quizCode ? (
-                    <div>
-                        <p>Quiz Code: {quizCode}</p>
-                        <button className="start-broadcast-button" onClick={handleBroadcastQuiz}>Start Broadcast</button>
-                    </div>
-                ) : (
-                    <button className="start-broadcast-button" onClick={handleBroadcastQuiz}>Broadcast Quiz</button>
-                )}
-            </section>
-        </div>
+                {/* Quiz Information Section */}
+                <article className="details__box">
+                    <h2 className="details__subtitle">Quiz Information</h2>
+                    <p className="details__text"><strong>Description:</strong> {quiz.description}</p>
+                    <p className="details__text"><strong>Duration:</strong> {quiz.duration_minutes} minutes</p>
+                    <p className="details__text"><strong>Difficulty:</strong> {quiz.difficulty}</p>
+                    <p className="details__text"><strong>Category:</strong> {quiz.category}</p>
+                    <p className="details__text"><strong>Questions:</strong> {quiz.num_questions}</p>
+                </article>
+
+                {/* Action Section */}
+                <article className="details__button-box">
+                    <Link to={`/${userId}/quizzes/${quizId}/play`}>
+                        <button className="details__button">Start Quiz</button>
+                    </Link>
+
+                    {/* Display the quiz code and broadcast button */}
+                    {quizCode ? (
+                        <div>
+                            <p className="details__text">Quiz Code: {quizCode}</p>
+                            <button className="details__button" onClick={handleBroadcastQuiz}>Start Broadcast</button>
+                        </div>
+                    ) : (
+                        <button className="details__button" onClick={handleBroadcastQuiz}>Broadcast Quiz</button>
+                    )}
+                </article>
+            </div>
+        </section>
     );
 }
 
