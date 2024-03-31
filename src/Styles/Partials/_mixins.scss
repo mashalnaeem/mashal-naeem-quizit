@@ -27,16 +27,18 @@
     border: 1px solid $border-color;
     background-color: $gray;
     font-size: 0.675rem;
+    letter-spacing: 0.05rem;
 }
 
 @mixin button-details-mobile {
     @include button;
     background-image: url("../../assets/images/details.svg");
     background-size: 0.75rem;
-    background-position: 3.66rem 0.75rem;
+    background-position: 3.9rem 0.75rem;
     background-repeat: no-repeat;
     padding-right: 1rem;
     padding-left: 0;
+    width: 5.5rem;
 }
 
 @mixin card {

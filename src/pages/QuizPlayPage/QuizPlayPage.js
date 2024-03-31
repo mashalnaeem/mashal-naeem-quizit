@@ -1,11 +1,15 @@
+import "./QuizPlayPage.scss";
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 import Scoreboard from '../../components/Scoreboard/Scoreboard';
 import shuffleArray from '../../utils/shuffleArray';
+import clock from "../../assets/icons/undraw_clock.svg"
 
 function QuizPlayPage() {
+
     const [quizData, setQuizData] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState({});
@@ -89,37 +93,41 @@ function QuizPlayPage() {
         }
     };
 
+    const colors = ['#5424FD', '#F5001E', '#FCC636', '#2B2B2B']; 
+
     if (loading) {
         return <p>Loading quiz...</p>;
     }
 
     return (
-        <div className="container mt-3">
-            <h2>Quiz Play Page</h2>
-            <p className="mb-2">Question {currentQuestionIndex + 1} of {quizData.length}</p>
-            <p className="mb-2">Time Remaining: {timeRemaining} seconds</p>
+        <div className="container mt-3 play__container">
+            <h2 className="play__title">Quiz Play Page</h2>
+            <p className="mb-2 play__text">Question {currentQuestionIndex + 1} of {quizData.length}</p>
+            <p className="mb-2 play__text">Time Remaining: {timeRemaining} seconds</p>
+            <img className="play__icon" src={clock} alt="clock-icon" />
             <div className="card mb-3">
-                <div className="card-body">
-                    <h5 className="card-title">{quizData[currentQuestionIndex]?.question}</h5>
-                    <ul className="list-group list-group-flush">
+                <div className="card-body play__card">
+                    <h5 className="card-title play__subtitle">{quizData[currentQuestionIndex]?.question}</h5>
+                    <div className="row play__box">
                         {quizData[currentQuestionIndex]?.options.map((option, index) => (
-                            <li key={index} className="list-group-item">
+                            <div key={index} className="col-md-6 mb-2 play__answers">
                                 <button
-                                    className="btn btn-secondary w-100"
+                                    className="play__answers-button"
+                                    style={{ backgroundColor: colors[index % colors.length] }} // Assign color based on index
                                     onClick={() => handleAnswer(option)}
                                     disabled={showFeedback}
                                 >
                                     {option}
                                 </button>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             </div>
-            {showFeedback && <p className="mb-2">{feedbackMessage}</p>}
-            {showCorrectAnswer && <p className="mb-2">Correct Answer: {quizData[currentQuestionIndex]?.correct_answer}</p>}
+            {showFeedback && <p className="mb-2 play__feedback">{feedbackMessage}</p>}
+            {showCorrectAnswer && <p className="mb-2 play__feedback play__feedback--red">Correct Answer: {quizData[currentQuestionIndex]?.correct_answer}</p>}
             <button
-                className="btn btn-primary"
+                className="btn btn-primary play__button"
                 onClick={handleNextQuestion}
                 disabled={!showFeedback}
             >
@@ -127,7 +135,7 @@ function QuizPlayPage() {
             </button>
             {/* Show the score */}
             <div>
-                <h4>Score: {score}</h4>
+                <h4 className="play__score">Score: {score}</h4>
             </div>
 
             {quizCompleted && (
