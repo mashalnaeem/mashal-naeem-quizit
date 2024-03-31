@@ -48,7 +48,7 @@ function Header() {
       <nav className={`nav ${isDarkMode ? 'dark-mode' : ''}`}>
         <ul className="nav__list">
           <li className="nav__item">
-            <NavLink exact to="/" className="nav__link" activeClassName="active">Home</NavLink>
+            <NavLink to={"/" || `/${userId}/home`} className="nav__link" activeClassName="active">Home</NavLink>
           </li>
           {!isLoggedIn && (
             <>
@@ -66,7 +66,7 @@ function Header() {
                 <NavLink to={`/${userId}/profile`} className="nav__link" activeClassName="active">Profile</NavLink>
               </li>
               <li className="nav__item">
-                <button className="nav__link" onClick={handleLogout}>Logout</button>
+                <Link className="nav__link" onClick={handleLogout}>Logout</Link>
               </li>
             </>
           )}

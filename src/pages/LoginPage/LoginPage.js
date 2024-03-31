@@ -82,6 +82,7 @@ function LoginPage() {
           label="Email"
           onChange={(e) => handleInputChange(e, 'email')}
           type="email"
+          placeholder="Enter Your Email"
           className={errors.email ? 'error' : ''}
         />
         {errors.email && <span className="form__error">{errors.email}</span>}
@@ -92,6 +93,7 @@ function LoginPage() {
           label="Password"
           onChange={(e) => handleInputChange(e, 'password')}
           type="password"
+          placeholder="Enter Your Password"
           className={errors.password ? 'error' : ''}
         />
         {errors.password && <span className="form__error">{errors.password}</span>}

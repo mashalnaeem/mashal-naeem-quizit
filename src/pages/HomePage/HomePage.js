@@ -61,7 +61,7 @@ function HomePage() {
             <ModalComponent
                 title="Log In Required"
                 body="You need to log in to access this feature. Click below to proceed to the login page."
-                closeButton="close"
+                closeButton="Close"
                 primaryButton="Go to Login"
                 onClick={() => navigate("/login")}
                 onHide={() => setShowModal(false)}
