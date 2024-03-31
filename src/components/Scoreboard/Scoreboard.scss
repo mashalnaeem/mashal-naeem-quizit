@@ -1,4 +1,11 @@
-.scoreboard-overlay {
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+
+.scoreboard {
+
+  &__container {
     position: fixed;
     top: 0;
     left: 0;
@@ -9,13 +16,53 @@
     justify-content: center;
     align-items: center;
   }
+
+  &__title {
+    font-size: 3rem;
+    letter-spacing: 0.05rem;
+  }
+
+  &__subtitle {
+    @include subtitle;
+    padding: 0;
+  }
+
+  &__text {
+    @include text;
+    font-size: 1.25rem;
+  }
   
-  .scoreboard-content {
+  &__content {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
+    margin: 0 1rem;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
-  .buttons button {
+  &__button {
     margin-right: 10px;
+    @include button;
+    width: 9rem;
+    font-size: 1rem;
+    border: none;
+    margin: 0.5rem;
+
+    &--blue {
+      background-color: $blue;
+    }
+
+    &--red {
+      background-color: $red;
+    }
+
+    &--yellow {
+      background-color: $yellow;
+    }
   }
+}

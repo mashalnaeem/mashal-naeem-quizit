@@ -1,9 +1,11 @@
 import "./Scoreboard.scss";
+
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
+
     const { userId } = useParams();
 
     const totalQuestions = quizData.length;
@@ -51,28 +53,29 @@ function Scoreboard({ score, quizData, userAnswers, quizCompleted }) {
     };
 
     useEffect(() => {
+
         if (quizCompleted) {
             updateUserScore();
         }
     }, [quizCompleted, score]);  
 
     return (
-        <div className="scoreboard-overlay">
-            <div className="scoreboard-content">
-                <h2>Quiz Score</h2>
-                <h5>Score: {score}</h5>
-                <p>Total Questions: {totalQuestions}</p>
-                <p>Correct Answers: {correctAnswers}</p>
-                <p>Incorrect Answers: {incorrectAnswers}</p>
-                <p>Percentage: {percentage}%</p>
-                <p>{message} <span role="img" aria-label="emoji">{emoji}</span></p>
-                <div className="buttons">
+        <div className="scoreboard__container">
+            <div className="scoreboard__content">
+                <h2 className="scoreboard__title">Quiz Score</h2>
+                <h5 className="scoreboard__subtitle">Score: {score}</h5>
+                <p className="scoreboard__text">Total Questions: {totalQuestions}</p>
+                <p className="scoreboard__text">Correct Answers: {correctAnswers}</p>
+                <p className="scoreboard__text">Incorrect Answers: {incorrectAnswers}</p>
+                <p className="scoreboard__text">Percentage: {percentage}%</p>
+                <p className="scoreboard__text">{message} <span role="img" aria-label="emoji">{emoji}</span></p>
+                <div className="scoreboard__buttons">
                     <Link to={`/${userId}/profile`}>
-                        <button className="secondary">Close</button>
+                        <button className="scoreboard__button scoreboard__button--red">Close</button>
                     </Link>
-                    <button onClick={() => window.location.reload()}>Play Again</button>
+                    <button className="scoreboard__button scoreboard__button--blue" onClick={() => window.location.reload()}>Play Again</button>
                     <Link to={`/${userId}/quizzes`}>
-                        <button>Play Other Quiz</button>
+                        <button className="scoreboard__button scoreboard__button--yellow">Play Another Quiz</button>
                     </Link>
                 </div>
             </div>
