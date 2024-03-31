@@ -5,6 +5,7 @@ import { Button, Modal } from 'react-bootstrap';
 
 import editIcon from "../../assets/icons/edit-24px.svg";
 import deleteIcon from "../../assets/icons/delete_outline-24px.svg";
+import BackIcon from "../../assets/icons/arrow_back-24px.svg"
 
 const UserQuizDetails = ({ userId, quizId }) => {
   const [quiz, setQuiz] = useState(null);
@@ -51,21 +52,23 @@ const UserQuizDetails = ({ userId, quizId }) => {
 
   return (
     <div>
+    
+        <img src={BackIcon} alt="back-icon" onClick={handleCloseModal} />
       {/* Edit Icon */}
       <Link to={`/${userId}/user_quizzes/edit/${quizId}`}>
         <img src={editIcon} alt="edit-icon" />
       </Link>
       {/* Delete Icon */}
-      <button onClick={handleDeleteQuiz}>
-        <img src={deleteIcon} alt="delete-icon" />
-      </button>
+    
+        <img src={deleteIcon} alt="delete-icon" onClick={handleDeleteQuiz} />
+    
       <h2>Quiz Details</h2>
       <p>Title: {quiz.title}</p>
       <p>Description: {quiz.description}</p>
       <p>Category: {quiz.category}</p>
       <p>Time (Mintues): {quiz.duration_minutes}</p>
       <p>Settings: {quiz.is_public ? "Public" : "Private"}</p>
-      <Link to={`/${userId}/user_quizzes/${quizId}/broadcast_play`}><Button variant="primary">Broadcast Play</Button></Link>
+      <Link to={`/${userId}/user_quizzes/${quizId}/broadcast`}><Button variant="primary">Broadcast Play</Button></Link>
       
       {/* Modal for success message */}
       <Modal show={showModal} onHide={handleCloseModal}>

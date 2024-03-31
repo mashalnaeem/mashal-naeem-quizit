@@ -1,0 +1,39 @@
+@use './variables' as *;
+
+@mixin mobile {
+    @media screen and (min-width: $mobile-breakpoint) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media screen and (min-width: $tablet-breakpoint) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media screen and (min-width: $desktop-breakpoint) {
+        @content;
+    }
+}
+
+@mixin button {
+    width: 97px;
+    height: 49px;
+    flex-shrink: 0;
+    border-radius: 25px;
+    border: 1px solid $border-color;
+    background-color: $gray;
+}
+
+@mixin button-details-mobile {
+	border-radius: 20px;
+	border: none;
+    color: white;
+    background-image: url("../../assets/images/details.svg");
+    background-size: 1rem;
+    background-position: 5.25rem 0.5rem;
+    background-repeat: no-repeat; 
+    padding-right: 1rem;
+}

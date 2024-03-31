@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 import io from 'socket.io-client';
 
+import BackIcon from '../../components/BackIcon/BackIcon';
+
 function QuizDetailsPage() {
     const [quiz, setQuiz] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -61,11 +63,13 @@ function QuizDetailsPage() {
 
     return (
         <div className="quiz-details">
+                    <BackIcon />
             {/* Header Section */}
             <header className="quiz-details-header">
                 <h1>{quiz.title}</h1>
                 {/* Add navigation links if needed */}
             </header>
+    
 
             {/* Quiz Information Section */}
             <section className="quiz-information">

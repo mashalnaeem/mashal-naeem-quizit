@@ -1,6 +1,6 @@
+@use "./styles/partials/global";
+@use "./styles/partials/typography";
 
 body {
-  background-color: white;
-  color: black;
-  font-family: Satoshi;
+  font-family: "Lordina", sans-serif !important;
 }

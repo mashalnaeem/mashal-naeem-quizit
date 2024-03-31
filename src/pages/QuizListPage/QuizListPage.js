@@ -42,29 +42,31 @@ function QuizList() {
         return <p>{error}</p>;
     }
 
-    // JSX to render list of quizzes
+    const colors = ['#F5001E', '#5424FD', '#FCC636' ];
+  
     return (
-        <Container>
-            <h2 className="text-center">Quiz List</h2>
-            <Row className="justify-content-center">
-                {quizzes.map((quiz) => (
-                    <Col key={quiz.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
-                        <Card className="shadow quiz__container" >
-                            <Card.Body>
-                                <Card.Title>{quiz.title}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">Category: {quiz.category}</Card.Subtitle>
-                                <Card.Text>Total Questions: {quiz.num_questions}</Card.Text>
-                                <Link to={`/${userId}/quizzes/${quiz.id}`}>
-                                    <Button variant="primary">Details</Button>
-                                </Link>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
+        <Container className=''>
+          <h2 className="text-center">Quiz List</h2>
+          <Row className="justify-content-center">
+            {quizzes.map((quiz, index) => (
+              <Col key={quiz.id} xs={12} sm={6} md={4} lg={3} className="mb-4">
+                <Card className="shadow quiz__container" style={{ backgroundColor: colors[index % colors.length] }}>
+                  <Card.Body>
+                    <Card.Title>{quiz.title}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">Category: {quiz.category}</Card.Subtitle>
+                    <Card.Text>Total Questions: {quiz.num_questions}</Card.Text>
+                    <Link to={`/${userId}/quizzes/${quiz.id}`}>
+                      <button className="quiz__button">Details</button>
+                    </Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
         </Container>
-    );
-};
+      );
+    };
+ 
 
 
 export default QuizList;

@@ -1,0 +1,20 @@
+@use "./variables" as *;
+*,
+::after,
+::before {
+	box-sizing: border-box;
+}
+
+#root {
+	position: relative;
+}
+
+body {
+	background-color: white;
+}
+
+button,
+Link,
+.clickable {
+	cursor: pointer;
+}

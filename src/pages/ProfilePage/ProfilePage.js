@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Button, Modal } from 'react-bootstrap';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import BackIcon from '../../components/BackIcon/BackIcon';
 
 import editIcon from '../../assets/icons/edit-24px.svg';
 import deleteIcon from '../../assets/icons/delete_outline-24px.svg'
@@ -99,6 +100,7 @@ function ProfilePage() {
 
   return (
     <div className="profile-container">
+       <BackIcon />
       <img src={editIcon} alt="Edit Profile" className="edit-icon" onClick={handleEditProfile} />
       <img src={deleteIcon} alt="Edit Profile" className="edit-icon" onClick={handleDeleteProfile} />
       <h2>User Profile</h2>
