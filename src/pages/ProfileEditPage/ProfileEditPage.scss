@@ -7,8 +7,6 @@
 
     &__container {
         @include container;
-        position: relative;
-        margin: 1rem auto;
 
         @include tablet {
             width: 75%;
@@ -36,6 +34,10 @@
         background-color: $blue;
         margin: 2rem 0;
         font-size: 1rem;
+
+        @include tablet {
+            width: 8rem;
+        }
     }
 
     &__error {

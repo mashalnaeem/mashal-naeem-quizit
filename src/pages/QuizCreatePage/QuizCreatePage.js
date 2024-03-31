@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import "./QuizCreatePage.scss"
+
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 
-import Question from '../../components/Question/Question';
+import ModalComponent from "../../components/ModalComponent/ModalComponent";
+import Question from "../../components/Question/Question"
 import Input from '../../components/Input/Input';
-
+import BackIcon from '../../components/BackIcon/BackIcon';
 
 function QuizCreatePage({ mode }) {
 
@@ -26,10 +29,13 @@ function QuizCreatePage({ mode }) {
         questions: [{ question: '', correct_answer: '', incorrect_answers: ['', '', ''] }]
     });
 
-    useEffect(() => {
-        if (mode === 'edit') {
+    // Define state variables for error messages
+    const [errors, setErrors] = useState("");
+    const [error, setError] = useState("");
 
-            // Fetch quiz data if in edit mode, extract quiz ID from the URL
+    useEffect(() => {
+
+        if (mode === 'edit') {
             const quizId = location.pathname.split('/').pop();
             fetchQuizData(quizId);
         }
@@ -39,7 +45,6 @@ function QuizCreatePage({ mode }) {
         try {
             const response = await axios.get(`http://localhost:8080/api/user_quizzes/${userId}/${quizId}`);
             setFormData(response.data);
-
         } catch (error) {
             console.error('Error fetching quiz data:', error);
         }
@@ -47,61 +52,118 @@ function QuizCreatePage({ mode }) {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-
-        // Adjust for checkbox value and other inputs
         const newValue = type === 'checkbox' ? checked : value;
+    
+        // Remove error for the field being updated
+        setErrors(prevErrors => {
+            const updatedErrors = { ...prevErrors };
+            delete updatedErrors[name]; // Remove error for the updated field
+            return updatedErrors;
+        });
+    
         setFormData(prevData => ({
             ...prevData,
             [name]: newValue
         }));
-    };
+    };    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        // Validate all required fields
+        const newErrors = {};
+        if (!formData.title.trim()) {
+            newErrors['title'] = 'Title is required';
+        }
+        if (!formData.description.trim()) {
+            newErrors['description'] = 'Description is required';
+        }
+        if (!formData.category.trim()) {
+            newErrors['category'] = 'Category is required';
+        }
+        if (!formData.difficulty.trim()) {
+            newErrors['difficulty'] = 'Difficulty is required';
+        }
+        if (!formData.duration_minutes.trim()) {
+            newErrors['duration_minutes'] = 'Duration is required';
+        }
+        if (!formData.isPublic) {
+            newErrors['isPublic'] = 'Public is required';
+        }
+        
+        // Update errors state
+        setErrors(newErrors);
+    
+        // If there are errors, return without submitting the form
+        if (Object.keys(newErrors).length > 0) {
+            return;
+        }
+    
         try {
             let response;
             if (formData._id) {
-                // Update quiz if quiz ID exists
                 response = await axios.put(`http://localhost:8080/api/user_quizzes/${userId}/${formData._id}`, formData);
             } else {
-                // Create new quiz if quiz ID does not exist
                 response = await axios.post(`http://localhost:8080/api/user_quizzes/${userId}`, formData);
             }
             setShowModal(true);
-
+            
         } catch (error) {
             console.error('Error creating/updating quiz:', error);
-            // Handle error, display error message, etc.
+
+            // Custom error handling based on response status
+            if (error.response) {
+                if (error.response.status === 400) {
+                    setError(error.response.data.message);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
+            }
         }
     };
 
     const handleCloseModal = () => {
+
         setShowModal(false);
         navigate(`/${userId}/user_quizzes`);
     };
 
     return (
-        <div>
-            <h2>{mode === 'edit' ? 'Edit Quiz' : 'Create User Quiz'}</h2>
-            <form onSubmit={handleSubmit}>
+        <div className="create__container">
 
+            <BackIcon className="profile__back" />
+
+            <h2 className="create__title">{mode === 'edit' ? 'Edit Quiz' : 'Create User Quiz'}</h2>
+            <form onSubmit={handleSubmit}>
                 <Input
                     name="title"
                     value={formData.title}
                     label="Title"
                     onChange={handleChange}
                     type="text"
+                    placeholder="Enter A Title"
                 />
-                <Input
+                {errors.title && <p className="create__error">{errors.title}</p>}
+
+                <label className="create__label">Description</label>
+                <textarea
+                    className="create__input"
                     name="description"
                     value={formData.description}
-                    label="Description"
                     onChange={handleChange}
                     type="text"
-                />
+                    placeholder="Enter A Description">
+                </textarea>
+                {errors.description && <p className="create__error">{errors.description}</p>}
+
                 <div>
-                    <label>Category</label>
-                    <select name="category" value={formData.category} onChange={handleChange} required>
+                    <label className="create__label">Category</label>
+                    <select 
+                        className="create__select" 
+                        name="category" 
+                        value={formData.category} 
+                        onChange={handleChange}
+                    >
                         <option value="">Select Category</option>
                         <option value="Language">Language</option>
                         <option value="Science">Science</option>
@@ -111,7 +173,6 @@ function QuizCreatePage({ mode }) {
                         <option value="Technology">Technology</option>
                         <option value="Other">Other</option>
                     </select>
-
                     {formData.category === "Other" && (
                         <Input
                             name="otherCategory"
@@ -120,26 +181,37 @@ function QuizCreatePage({ mode }) {
                             type="text"
                         />
                     )}
+                    {errors.category && <p className="create__error">{errors.category}</p>}
+
                 </div>
                 <div>
-                    <label>Difficulty</label>
-                    <select name="difficulty" value={formData.difficulty} onChange={handleChange} required>
+                    <label className="create__label">Difficulty</label>
+                    <select 
+                        className="create__select" 
+                        name="difficulty" 
+                        value={formData.difficulty} 
+                        onChange={handleChange}
+                    >
                         <option value="">Select Difficulty</option>
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
                     </select>
-                </div>
+                    {errors.difficulty && <p className="create__error">{errors.difficulty}</p>}
 
+                </div>
                 <Input
                     name="duration_minutes"
                     value={formData.duration_minutes}
                     label="Duration (minutes)"
                     onChange={handleChange}
                     type="number"
+                    placeholder="0"
                 />
+                {errors.duration_minutes && <p className="create__error">{errors.duration_minutes}</p>}
+
                 <div>
-                    <label>Is Public:</label>
+                    <label className="create__label">Is Public:</label>
                     <input
                         type="checkbox"
                         name="isPublic"
@@ -147,25 +219,25 @@ function QuizCreatePage({ mode }) {
                         onChange={handleChange}
                     />
                 </div>
+                {errors.isPublic && <p className="create__error">{errors.isPublic}</p>}
+
                 <Question
                     questions={formData.questions}
                     setFormData={setFormData}
                 />
-                <Button varient="primary" type="submit">Submit</Button>
+
+                {error && <p className="error-message">{error}</p>}
+                <Button className="create__button" type="submit">Submit</Button>
             </form>
-
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header>
-                    <Modal.Title>{formData._id ? 'Quiz Updated' : 'Quiz Created'}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>The quiz has been successfully {formData._id ? 'updated' : 'created'}.</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>Go to My Quizzes</Button>
-                </Modal.Footer>
-            </Modal>
-
+            
+            <ModalComponent 
+                show={showModal} 
+                onHide={handleCloseModal}
+                title={formData._id ? "Quiz Updated" : "Quiz Created"}
+                body={`The quiz has been successfully {formData._id ? 'updated' : 'created'}`}
+                primaryButton="Go To My Quzzies"
+                onClick={handleCloseModal}
+            />
         </div>
     );
 }
