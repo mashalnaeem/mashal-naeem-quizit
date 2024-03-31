@@ -58,3 +58,38 @@
     letter-spacing: 0.05rem;
     column: $white;
 }
+
+@mixin input {
+	height: 36px;
+	width: 100%;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 20px;
+	border: 1px rgba(78, 78, 78, 0.75) solid;
+	outline: none;
+
+	&:focus {
+		border: 1px $blue solid;
+	}
+
+    &::placeholder {
+        @include text;
+        font-weight: 400;
+        color: $border-color;
+        opacity: 50%;
+    }
+}
+
+@mixin input-desktop-tablet {
+	height: 38px;
+	width: auto;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 20px;
+	border: 1px $border-color solid;
+	outline: none;
+
+	&:focus {
+		border: 1px $blue solid;
+	}
+}

@@ -85,6 +85,7 @@ function SignupPage() {
           label="Create Password"
           onChange={(e) => setPassword(e.target.value)}
           type="password"
+          placeholder="Enter Your Password"
         />
         <Input
           name="confirmPassword"
