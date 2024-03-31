@@ -32,6 +32,7 @@ function QuizCreatePage({ mode }) {
     // Define state variables for error messages
     const [errors, setErrors] = useState("");
     const [error, setError] = useState("");
+    const [questionErrors, setQuestionErrors] = useState([]);
 
     useEffect(() => {
 
@@ -90,9 +91,31 @@ function QuizCreatePage({ mode }) {
         if (!formData.isPublic) {
             newErrors['isPublic'] = 'Public is required';
         }
+        // if (!formData.questions.some(question => question.question.trim())) {
+        //     newErrors['questions'] = 'At least one question must be filled';
+        // }
         
         // Update errors state
         setErrors(newErrors);
+
+        // Validate question fields
+        const newQuestionErrors = formData.questions.map((question, index) => {
+            const errors = {};
+            if (!question.question.trim()) {
+                errors.question = 'Question is required';
+            }
+            if (!question.correct_answer.trim()) {
+                errors.correct_answer = 'Correct answer is required';
+            }
+            question.incorrect_answers.forEach((answer, subIndex) => {
+                if (!answer.trim()) {
+                    errors[`incorrect_answers[${subIndex}]`] = 'Incorrect answer is required';
+                }
+            });
+            return errors;
+        });
+
+        setQuestionErrors(newQuestionErrors);
     
         // If there are errors, return without submitting the form
         if (Object.keys(newErrors).length > 0) {
@@ -224,12 +247,13 @@ function QuizCreatePage({ mode }) {
                 <Question
                     questions={formData.questions}
                     setFormData={setFormData}
+                    questionErrors={questionErrors}
                 />
 
                 {error && <p className="error-message">{error}</p>}
                 <Button className="create__button" type="submit">Submit</Button>
             </form>
-            
+
             <ModalComponent 
                 show={showModal} 
                 onHide={handleCloseModal}
