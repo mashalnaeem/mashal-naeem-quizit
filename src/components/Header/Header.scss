@@ -21,6 +21,11 @@
 
     }
 
+    @include desktop {
+        height: 8rem;
+        padding: 1rem 5rem;
+    }
+
     &__logo {
         width: 100px;
         height: auto;
@@ -29,6 +34,11 @@
     &__image {
         width: 4rem;
         height: 4rem;
+
+        @include desktop {
+            width: 5.5rem;
+            height: 5.5rem;
+        }
     }
 }
 
@@ -55,10 +65,14 @@
         font-weight: 500;
         text-decoration: none;
         transition: color 0.3s ease;
+
+        @include desktop {
+            font-size: 1.5rem;
+        }
     }
 
     &__link.active {
-        color: $red; 
+        color: $red;
     }
 
     &__light {
@@ -79,7 +93,7 @@
         }
 
         .nav__link.active {
-            color: $red; 
+            color: $red;
         }
     }
 }

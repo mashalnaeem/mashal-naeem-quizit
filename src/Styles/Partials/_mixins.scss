@@ -80,16 +80,15 @@
     }
 }
 
-@mixin input-desktop-tablet {
-	height: 38px;
-	width: auto;
-	padding-left: 16px;
-	padding-right: 16px;
-	border-radius: 20px;
-	border: 1px $border-color solid;
-	outline: none;
-
-	&:focus {
-		border: 1px $blue solid;
-	}
+@mixin error {
+    display: flex;
+    margin: 0 !important;
+    padding: 0 1.25rem !important;
+    color: $error-red;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background-image: url("../../assets/icons/error-24px.svg");
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    background-position: 0px;
 }

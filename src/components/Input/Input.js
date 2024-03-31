@@ -1,6 +1,6 @@
 import "./Input.scss";
 
-function Input({ label, name, type, onChange, value, placeholder }) {
+function Input({ label, name, type, onChange, value, placeholder, className }) {
     return (
         <div className="field">
             <label htmlFor={name} className="field__label">
@@ -13,7 +13,8 @@ function Input({ label, name, type, onChange, value, placeholder }) {
                 onChange={onChange} 
                 value={value} 
                 placeholder={placeholder}
-                className="field__input" />
+                className={`field__input ${className}`} 
+            />
         </div>
     );
 }
