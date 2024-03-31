@@ -1,0 +1,38 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+
+.modal {
+
+    &__header {
+        border-color: $red;
+        border-width: 2px;
+        justify-content: space-between;
+    }
+
+    &__img {
+        margin-right: 1rem;
+        height: 2.75rem;
+    }
+
+    &__title {
+        @include subtitle;
+    }
+
+    &__text {
+        @include text;
+    }
+
+    &__button {
+        @include button;
+        @include text;
+        font-size: 0.75rem;
+        padding: 0;
+    }
+
+    &__footer {
+        border-color: $yellow;
+        border-width: 2px;
+    }
+}
