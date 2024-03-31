@@ -69,7 +69,11 @@
 
     &.dark-mode {
         .nav__link {
-            color: white;
+            color: $white;
+        }
+
+        .nav__link.active {
+            color: $red; 
         }
     }
 }
@@ -77,5 +81,14 @@
 .toggle-icons {
     position: absolute;
     top: 1%;
-    right: 2%;
+    right: 1%;
+
+    @include tablet {
+        top: 7.5%;
+        right: 1%;
+    }
+
+    @include desktop {
+        right: 0.5%;
+    }
 }

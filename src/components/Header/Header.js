@@ -1,3 +1,5 @@
+import "./Header.scss";
+
 import { useState } from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 
@@ -5,10 +7,8 @@ import logo from "../../assets/logo/logo.svg";
 import lightIcon from "../../assets/images/light.svg";
 import darkIcon from "../../assets/images/dark.svg";
 
-import "./Header.scss";
-
 function Header() {
-  
+
   const navigate = useNavigate();
 
   const [isDarkMode, setIsDarkMode] = useState(false); // State for dark mode
