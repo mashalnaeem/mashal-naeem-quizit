@@ -2,11 +2,12 @@ import "./QuizPlayPage.scss";
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Scoreboard from '../../components/Scoreboard/Scoreboard';
 import shuffleArray from '../../utils/shuffleArray';
-import clock from "../../assets/icons/undraw_clock.svg"
+import clock from "../../assets/icons/undraw_clock.svg";
+import backIcon from "../../assets/icons/arrow_back-24px.svg";
 
 function QuizPlayPage() {
 
@@ -23,6 +24,7 @@ function QuizPlayPage() {
     const [quizCompleted, setQuizCompleted] = useState(false);
 
     const { quizId } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchQuizData = async () => {
@@ -101,6 +103,7 @@ function QuizPlayPage() {
 
     return (
         <div className="container mt-3 play__container">
+            <img src={backIcon} alt="back-icon" className="profile__back" onClick={() => navigate(-1)}/>
             <h2 className="play__title">Quiz Play Page</h2>
             <p className="mb-2 play__text">Question {currentQuestionIndex + 1} of {quizData.length}</p>
             <p className="mb-2 play__text">Time Remaining: {timeRemaining} seconds</p>
