@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import "./HomePage.scss"
+
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button, Modal } from 'react-bootstrap';
 
 function HomePage() {
+    
     const isLoggedIn = sessionStorage.getItem('token') !== null;
     const userId = sessionStorage.getItem('userId');
     const [showModal, setShowModal] = useState(false);
@@ -25,32 +28,33 @@ function HomePage() {
     };
 
     return (
-        <div className="container mt-5">
-            <h1 className="text-center">Create, Play, Run!</h1>
-            <div className="row mt-5">
-                <div className="col-md-6">
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Create a Quiz</Card.Title>
-                            <Card.Text>
-                                Create a custom quiz? Click here to get started
-                            </Card.Text>
-                            <Button variant="primary" onClick={handleCreateQuizClick}>Create Now</Button>
-                        </Card.Body>
-                    </Card>
-                </div>
-                <div className="col-md-6">
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Play Quizzes</Card.Title>
-                            <Card.Text>
-                                Wanna play an existing game? Browse through various quizzes and test your knowledge.
-                            </Card.Text>
-                            <Button variant="primary" onClick={handlePlayQuizzesClick}>Play Now</Button>
-                        </Card.Body>
-                    </Card>
-                </div>
-            </div>
+        <div className="home">
+            <h1 className="text-center home__title">
+                <span className="home__create">Create,</span>
+                <span className="home__play">Play,</span>
+                <span className="home__run">Learn!</span>
+            </h1>
+
+            <Card className="home__container">
+                <Card.Body className="home__card">
+                    <Card.Title className="home__subtitle">Create a Quiz</Card.Title>
+                    <Card.Text className="home__descrip">
+                        Create a custom quiz to challenge your friends or students! Choose your topics, set the number of questions, and customize the difficulty level. Click here to get started.
+                    </Card.Text>
+                    <Button className="home__button" onClick={handleCreateQuizClick}>Create Now</Button>
+                </Card.Body>
+            </Card>
+
+            <Card className="home__container">
+                <Card.Body className="home__card home__card--red">
+                    <Card.Title className="home__subtitle">Play Quizzes</Card.Title>
+                    <Card.Text className="home__descrip">
+                        Are you ready to challenge yourself? Explore our collection of quizzes on various topics and put your knowledge to the test! Click below to start playing!
+                    </Card.Text>
+                    <Button className="home__button" onClick={handlePlayQuizzesClick}>Play Now</Button>
+                </Card.Body>
+            </Card>
+
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Log In Required</Modal.Title>
@@ -62,7 +66,7 @@ function HomePage() {
                     <Button variant="primary" onClick={() => setShowModal(false)}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => navigate('/login')}>
+                    <Button variant="primary" onClick={() => navigate("/login")}>
                         Go to Login
                     </Button>
                 </Modal.Footer>

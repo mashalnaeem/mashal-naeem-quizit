@@ -1,0 +1,64 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+
+.home {
+
+    margin: 1rem auto;
+
+    &__title {
+        font-weight: 700;
+        letter-spacing: 0.1rem;
+        font-size: 3rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__create {
+        color: $red;
+    }
+
+    &__play {
+        color: $blue;
+    }
+
+    &__run {
+        color: $yellow;
+    }
+
+    &__container {
+        display: flex;
+        width: 320px;
+        height: 232px;
+        margin: auto;
+        border: none;
+    }
+
+    &__card {
+        @include card;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        margin-bottom: 1rem;
+
+        &--red {
+            background-image: url("../../assets//images/card-red.svg");
+        }
+    }
+
+    &__subtitle {
+        @include subtitle;
+    }
+
+    &__descrip {
+        color: $white;
+    }
+
+    &__button {
+        @include button-details-mobile;
+        position: absolute;
+        top: 8%;
+        right: 0;
+    }
+}

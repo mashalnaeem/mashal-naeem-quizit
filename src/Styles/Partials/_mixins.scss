@@ -19,21 +19,37 @@
 }
 
 @mixin button {
-    width: 97px;
-    height: 49px;
+    width: 5rem;
+    height: 2.5rem;
     flex-shrink: 0;
+    color: white;
     border-radius: 25px;
     border: 1px solid $border-color;
     background-color: $gray;
+    font-size: 0.675rem;
 }
 
 @mixin button-details-mobile {
-	border-radius: 20px;
-	border: none;
-    color: white;
+    @include button;
     background-image: url("../../assets/images/details.svg");
-    background-size: 1rem;
-    background-position: 5.25rem 0.5rem;
-    background-repeat: no-repeat; 
+    background-size: 0.75rem;
+    background-position: 3.66rem 0.75rem;
+    background-repeat: no-repeat;
     padding-right: 1rem;
+    padding-left: 0;
+}
+
+@mixin card {
+    background-image: url("../../assets//images/card-blue.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+@mixin subtitle {
+    color: $white;
+    padding: 0.5rem;
+    font-size: 2rem;
 }
