@@ -88,18 +88,13 @@ function QuizCreatePage({ mode }) {
         if (!formData.duration_minutes.trim()) {
             newErrors['duration_minutes'] = 'Duration is required';
         }
-        if (!formData.isPublic) {
-            newErrors['isPublic'] = 'Public is required';
-        }
-        // if (!formData.questions.some(question => question.question.trim())) {
-        //     newErrors['questions'] = 'At least one question must be filled';
-        // }
         
         // Update errors state
         setErrors(newErrors);
 
         // Validate question fields
         const newQuestionErrors = formData.questions.map((question, index) => {
+
             const errors = {};
             if (!question.question.trim()) {
                 errors.question = 'Question is required';
@@ -138,6 +133,7 @@ function QuizCreatePage({ mode }) {
             if (error.response) {
                 if (error.response.status === 400) {
                     setError(error.response.data.message);
+
                 } else {
                     setError('An error occurred. Please try again later.');
                 }
@@ -242,7 +238,6 @@ function QuizCreatePage({ mode }) {
                         onChange={handleChange}
                     />
                 </div>
-                {errors.isPublic && <p className="create__error">{errors.isPublic}</p>}
 
                 <Question
                     questions={formData.questions}
@@ -258,7 +253,7 @@ function QuizCreatePage({ mode }) {
                 show={showModal} 
                 onHide={handleCloseModal}
                 title={formData._id ? "Quiz Updated" : "Quiz Created"}
-                body={`The quiz has been successfully {formData._id ? 'updated' : 'created'}`}
+                body={`The quiz has been successfully ${formData._id ? 'updated' : 'created'}`}
                 primaryButton="Go To My Quzzies"
                 onClick={handleCloseModal}
             />

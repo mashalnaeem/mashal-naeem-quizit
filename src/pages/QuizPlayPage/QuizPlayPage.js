@@ -27,6 +27,7 @@ function QuizPlayPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        
         const fetchQuizData = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/quizzes/${quizId}/questions`);
@@ -46,6 +47,7 @@ function QuizPlayPage() {
     }, [quizId]);
 
     useEffect(() => {
+
         const interval = setInterval(() => {
             setTimeRemaining(prevTime => {
                 if (prevTime > 0) {
@@ -63,6 +65,7 @@ function QuizPlayPage() {
     }, [currentQuestionIndex, quizData]);
 
     const handleAnswer = (selectedOption) => {
+
         const correctAnswer = quizData[currentQuestionIndex]?.correct_answer;
         if (selectedOption === correctAnswer) {
             setScore(prevScore => prevScore + 100);
@@ -85,6 +88,7 @@ function QuizPlayPage() {
     };
 
     const handleNextQuestion = () => {
+
         if (currentQuestionIndex < quizData.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
             setTimeRemaining(30);
