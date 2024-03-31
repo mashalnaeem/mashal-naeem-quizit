@@ -1,23 +1,59 @@
 @use "../../styles/partials/variables" as *;
 @use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/global" as *;
 
 
 .quiz {
+    padding: 1rem 2rem;
+
     &__container {
-        // background-image: url("../../assets/images/card.svg");
-        // background-repeat: none;
-        // background-position: center;
-        // background-size: cover;
-        // background-size: 360px 232px;
-height: 232px;
-flex-shrink: 0;
-border: none;
-border-radius: 20px;
-
+        height: 232px;
+        flex-shrink: 0;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        position: relative;
     }
 
-&__button {
-    @include button-details-mobile;    
+    &__title {
+        font-weight: 700;
+        font-size: 3.5rem;
+        color: $blue;
+        margin: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    &__subtitle {
+        @include subtitle;
+        color: $white;
+    }
+
+    &__text {
+        @include text;
+        font-size: 1.25rem;
+        color: $white;
+        margin: 0 0.75rem;
+    }
+
+    &__questions {
+        @include text;
+        color: $white;
+        margin: 1rem;
+    }
+
+    &__button {
+        @include button-details-mobile;
+        font-size: 0.75rem;
+        margin: 1.5rem;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &__icon {
+        margin: 2.5rem;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
 }
-    }
-
