@@ -3,20 +3,24 @@ import "./SignUpPage.scss";
 import { useState } from 'react';
 import axios from 'axios';
 import Input from "../../components/Input/Input.js"
-import { Link } from "react-router-dom";
-import { Button, Modal } from 'react-bootstrap';
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from 'react-bootstrap';
+
+import ModalComponent from "../../components/ModalComponent/ModalComponent";
 
 function SignupPage() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [errors, setErrors] = useState({});
   const [isValidEmail, setIsValidEmail] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleInputChange = (e, field) => {
 
@@ -44,36 +48,35 @@ function SignupPage() {
   };
 
   const handleInputBlur = (field) => {
-    if (!field) return;
-    if (!errors[field]) return;
-    setErrors(prevErrors => ({ ...prevErrors, [field]: '' }));
-  };
+
+    if (!field || !errors[field]) return;
+  
+    // Clear errors for input fields and the "Agree to Terms" checkbox
+    if (field === 'agreeTerms' || errors[field]) {
+      setErrors(prevErrors => ({ ...prevErrors, [field]: '' }));
+    }
+  };  
 
   const handleSignup = async (e) => {
-    e.preventDefault();
 
-    // Reset error message state
-    setErrorMessage('');
+    e.preventDefault();
 
     // Validate form fields //
     const newErrors = {};
-    if (!fullName) {
+    if (!fullName.trim()) {
       newErrors['fullName'] = 'Full name is required';
     }
-    if (!username) {
+    if (!username.trim()) {
       newErrors['username'] = 'Username is required';
     }
-    if (!email) {
+    if (!email.trim()) {
       newErrors['email'] = 'Email is required';
     }
-    if (!password) {
+    if (!password.trim()) {
       newErrors['password'] = 'Password is required';
     }
-    if (!confirmPassword) {
+    if (!confirmPassword.trim()) {
       newErrors['confirmPassword'] = 'Confirm Password is required';
-    }
-    if (!agreeTerms) {
-      newErrors['agreeTerms'] = 'You must agree to the Terms and Conditions';
     }
     if (!isValidEmail) {
       newErrors['email'] = 'Invalid email format';
@@ -81,12 +84,16 @@ function SignupPage() {
     if (password !== confirmPassword) {
       newErrors['confirmPassword'] = 'Passwords do not match';
     }
+    if (!agreeTerms) {
+      newErrors['agreeTerms'] = 'You must agree to the Terms and Conditions';
+    }
 
     // Update errors state //
     setErrors(newErrors);
 
     // If no errors, proceed with form submission //
     if (Object.keys(newErrors).length === 0) {
+
       const userData = {
         fullName,
         username,
@@ -97,19 +104,18 @@ function SignupPage() {
       try {
         const response = await axios.post('http://localhost:8080/api/users/register', userData);
         setShowModal(true);
+
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
-          setErrorMessage(error.response.data.message);
-        } else {
-          console.error('Signup error:', error);
-          setErrorMessage('An error occurred during signup. Please try again later.');
-        }
+        console.error('Signup error:', error);
+        setErrorMessage('An error occurred during signup');
       }
     }
   };
 
   const handleClick = () => {
+    
     setShowModal(false);
+    navigate("/login");
   }
 
   return (
@@ -196,21 +202,14 @@ function SignupPage() {
         </Button>
 
         {/* Modal for successful signup */}
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Signup Successful</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>Your account has been successfully created!</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Link to="/login">
-              <Button variant="primary" onClick={handleClick}>
-                Go to Login
-              </Button>
-            </Link>
-          </Modal.Footer>
-        </Modal>
+        <ModalComponent 
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          title="Signup Successful"
+          body="Your account has been successfully created!"
+          closeButton="Go to Login"
+          onClick={handleClick} 
+        />
       </form>
       <p className="form__footer">
         Already have an account? Click here to
