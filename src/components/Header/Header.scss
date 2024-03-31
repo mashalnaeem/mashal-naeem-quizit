@@ -55,10 +55,10 @@
         font-weight: 500;
         text-decoration: none;
         transition: color 0.3s ease;
+    }
 
-        &:hover {
-            color: $red;
-        }
+    &__link.active {
+        color: $red; 
     }
 
     &__light {
