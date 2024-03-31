@@ -1,0 +1,46 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+
+.profile-edit {
+
+    &__container {
+        @include container;
+        position: relative;
+        margin: 1rem auto;
+
+        @include tablet {
+            width: 75%;
+            padding: 2rem 2.5rem;
+        }
+
+        @include desktop {
+            width: 50%;
+        }
+    }
+
+    &__title {
+        @include subtitle;
+        padding: 0;
+        padding-top: 1.5rem;
+
+        @include tablet {
+            font-size: 2.5rem;
+        }
+    }
+
+    &__button {
+        @include button;
+        width: 100%;
+        background-color: $blue;
+        margin: 2rem 0;
+        font-size: 1rem;
+    }
+
+    &__error {
+        @include error;
+        margin-bottom: 1rem;
+        margin-left: 0.5rem;
+    }
+}

@@ -1,9 +1,12 @@
+import "./ProfileEditPage.scss";
+
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Button, Toast } from 'react-bootstrap';
 
-import Input from "../../components/Input/Input"
+import Input from "../../components/Input/Input";
+import BackIcon from "../../components/BackIcon/BackIcon";
 
 function ProfileEditPage() {
 
@@ -20,6 +23,7 @@ function ProfileEditPage() {
     const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
+
         const fetchUserData = async () => {
             try {
                 const token = sessionStorage.getItem('token');
@@ -50,8 +54,15 @@ function ProfileEditPage() {
     };
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
         const { username, email, existingPassword, newPassword, confirmNewPassword } = formData;
+
+        if (!existingPassword) {
+            setError('Please Enter Your password!');
+            return;
+        }
+
         // Check if new password and confirm password match
         if (newPassword !== confirmNewPassword) {
             setError('New password and confirm password do not match.');
@@ -66,9 +77,6 @@ function ProfileEditPage() {
             });
 
             setSuccessMessage('Profile updated successfully.');
-            //   setTimeout(() => {
-            //     window.location.href = `/${userId}/profile`;
-            //   }, 2000);
 
         } catch (error) {
             console.log(error)
@@ -77,21 +85,55 @@ function ProfileEditPage() {
     };
 
     return (
-        <div className="profile-edit-container">
-            <h2>Edit Profile</h2>
+        <div className="profile-edit__container">
+
+            <BackIcon className="profile__back" />
+            <h2 className="profile-edit__title">Edit Profile</h2>
+
             <Toast show={!!successMessage || !!error} onClose={() => { setSuccessMessage(''); setError(''); }}>
                 <Toast.Header closeButton={false}>
                     {successMessage ? 'Success' : 'Error'}
                 </Toast.Header>
-                <Toast.Body>{successMessage || error}</Toast.Body>
+                <Toast.Body className="profile-edit__error">{successMessage || error}</Toast.Body>
             </Toast>
+
             <form onSubmit={handleSubmit}>
-                <Input label="Username" name="username" type="text" onChange={handleChange} value={formData.username} />
-                <Input label="Email" name="email" type="email" onChange={handleChange} value={formData.email} />
-                <Input label="Existing Password" name="existingPassword" type="password" onChange={handleChange} value={formData.existingPassword} />
-                <Input label="New Password" name="newPassword" type="password" onChange={handleChange} value={formData.newPassword} />
-                <Input label="Confirm New Password" name="confirmNewPassword" type="password" onChange={handleChange} value={formData.confirmNewPassword} />
-                <Button type="submit" variant="primary">Update Profile</Button>
+                <Input 
+                    label="Username" 
+                    name="username" 
+                    type="text" 
+                    onChange={handleChange} 
+                    value={formData.username} 
+                />
+                <Input 
+                    label="Email" 
+                    name="email" 
+                    type="email" 
+                    onChange={handleChange} 
+                    value={formData.email} 
+                />
+                <Input 
+                    label="Existing Password" 
+                    name="existingPassword" 
+                    type="password" 
+                    onChange={handleChange} 
+                    value={formData.existingPassword} 
+                />
+                <Input 
+                    label="New Password" 
+                    name="newPassword" 
+                    type="password" 
+                    onChange={handleChange} 
+                    value={formData.newPassword} 
+                />
+                <Input 
+                    label="Confirm New Password" 
+                    name="confirmNewPassword" 
+                    type="password" 
+                    onChange={handleChange} 
+                    value={formData.confirmNewPassword} 
+                />
+                <Button type="submit" className="profile-edit__button">Update Profile</Button>
             </form>
         </div>
     );

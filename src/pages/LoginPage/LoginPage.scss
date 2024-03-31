@@ -37,6 +37,7 @@
 
     &__error {
        @include error;
+       margin: 0.25rem;
     }
 
     &__label {

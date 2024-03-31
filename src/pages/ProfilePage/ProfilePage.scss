@@ -76,11 +76,15 @@
         margin-bottom: 0.75rem;
         width: 7rem;
         background-color: $blue;
+        font-size: 0.75rem;
 
         @include tablet {
             margin-right: 1rem;
-            font-size: 0.75rem;
         }
+    }
+
+    &__toast {
+        color: $red;
     }
 
     &__error {

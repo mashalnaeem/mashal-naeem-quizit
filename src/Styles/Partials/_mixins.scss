@@ -82,7 +82,7 @@
 
 @mixin error {
     display: flex;
-    margin: 0 !important;
+    margin: 0;
     padding: 0 1.25rem !important;
     color: $error-red;
     padding: 0.75rem;

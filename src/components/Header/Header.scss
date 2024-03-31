@@ -66,6 +66,10 @@
         text-decoration: none;
         transition: color 0.3s ease;
 
+        @include tablet {
+            font-size: 1.25rem;
+        }
+
         @include desktop {
             font-size: 1.5rem;
         }

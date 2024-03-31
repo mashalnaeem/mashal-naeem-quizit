@@ -66,7 +66,7 @@ function Header() {
                 <NavLink to={`/${userId}/profile`} className="nav__link" activeClassName="active">Profile</NavLink>
               </li>
               <li className="nav__item">
-                <Link className="nav__link" onClick={handleLogout}>Logout</Link>
+                <Link to="/login" className="nav__link" onClick={handleLogout}>Logout</Link>
               </li>
             </>
           )}
