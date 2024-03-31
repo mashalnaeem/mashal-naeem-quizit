@@ -27,6 +27,7 @@
     &__button {
         @include button;
         @include text;
+        color: $white;
         font-size: 0.75rem;
         padding: 0;
     }

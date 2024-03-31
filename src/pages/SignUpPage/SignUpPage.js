@@ -129,6 +129,7 @@ function SignupPage() {
           onChange={(e) => handleInputChange(e, 'fullName')}
           onBlur={() => handleInputBlur('fullName')}
           type="text"
+          placeholder="Enter Your Full Name"
           className={errors.fullName ? 'error' : ''}
         />
         {errors.fullName && <span className="form__error">{errors.fullName}</span>}
@@ -140,6 +141,7 @@ function SignupPage() {
           onChange={(e) => handleInputChange(e, 'username')}
           onBlur={() => handleInputBlur('username')}
           type="text"
+          placeholder="Enter A UserName"
           className={errors.username ? 'error' : ''}
         />
         {errors.username && <span className="form__error">{errors.username}</span>}
@@ -151,6 +153,7 @@ function SignupPage() {
           onChange={(e) => handleInputChange(e, 'email')}
           onBlur={() => handleInputBlur('email')}
           type="email"
+          placeholder="Enter Your Email"
           className={errors.email ? 'error' : ''}
         />
         {errors.email && <span className="form__error">{errors.email}</span>}
@@ -174,6 +177,7 @@ function SignupPage() {
           onChange={(e) => handleInputChange(e, 'confirmPassword')}
           onBlur={() => handleInputBlur('confirmPassword')}
           type="password"
+          placeholder="Confirm Your Password"
           className={errors.confirmPassword ? 'error' : ''}
         />
         {errors.confirmPassword && <span className="form__error">{errors.confirmPassword}</span>}
