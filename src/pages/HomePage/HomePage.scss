@@ -13,6 +13,12 @@
         font-size: 3rem;
         display: flex;
         flex-direction: column;
+
+        @include tablet {
+            flex-direction: row;
+            justify-content: center;
+            margin: 2rem;
+        }
     }
 
     &__create {
@@ -33,6 +39,10 @@
         height: 232px;
         margin: auto;
         border: none;
+
+        @include tablet {
+            margin: 1rem;
+        }
     }
 
     &__card {
@@ -41,6 +51,7 @@
         overflow: hidden;
         cursor: pointer;
         margin-bottom: 1rem;
+        padding: 0 !important;
 
         &--red {
             background-image: url("../../assets//images/card-red.svg");
@@ -49,10 +60,14 @@
 
     &__subtitle {
         @include subtitle;
+        padding: 1.5rem;
+        padding-bottom: 0;
     }
 
     &__descrip {
         color: $white;
+        @include text;
+        padding: 0 1rem;
     }
 
     &__button {
@@ -60,5 +75,13 @@
         position: absolute;
         top: 8%;
         right: 0;
+    }
+
+    &__body {
+
+        @include tablet {
+            display: flex;
+            justify-content: center;
+        }
     }
 }

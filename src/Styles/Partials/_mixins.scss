@@ -53,3 +53,9 @@
     padding: 0.5rem;
     font-size: 2rem;
 }
+
+@mixin text {
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    column: $white;
+}

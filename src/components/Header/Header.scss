@@ -68,6 +68,12 @@
     }
 
     &.dark-mode {
+
+        .header {
+            background-color: $black;
+            color: $white;
+        }
+
         .nav__link {
             color: $white;
         }
@@ -81,7 +87,7 @@
 .toggle-icons {
     position: absolute;
     top: 1%;
-    right: 1%;
+    right: 1.5%;
 
     @include tablet {
         top: 7.5%;
