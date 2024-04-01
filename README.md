@@ -39,7 +39,7 @@ QuizIt is a web application for quizzes built with React.
 ### Developer Environment
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/mashalnaeem/mashal-naeem-quizit-api>
 cd <project-directory>
 npm install
 npm start
