@@ -81,7 +81,7 @@ function UserQuizDetailsPage() {
         <Button className="details__buttons">Broadcast Play</Button>
 
         {/* Modal for success message */}
-        <Modal 
+        <ModalComponent 
           show={showModal} 
           onHide={handleCloseModal}
           title="Quiz Deleted"

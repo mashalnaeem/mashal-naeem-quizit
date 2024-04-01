@@ -1,9 +1,9 @@
-
+import "./Footer.scss"
 
 function Footer() {
   return (
     <footer>
-      <p>&copy; 2024 QuizIt. All rights reserved.</p>
+      <p class="footer">&copy; 2024 QuizIt. All rights reserved.</p>
     </footer>
   );
 };
