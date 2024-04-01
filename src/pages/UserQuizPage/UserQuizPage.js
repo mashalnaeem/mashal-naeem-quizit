@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
-
 import "./UserQuizPage.scss"
 
-import UserQuizDetails from '../../components/UserQuizDetails/UserQuizDetails';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+
+import ModalComponent from "../../components/ModalComponent/ModalComponent";
 
 function UserQuizPage() {
+
     const { userId } = useParams();
+    const navigate = useNavigate();
+
     const [userQuizzes, setUserQuizzes] = useState([]);
     const [error, setError] = useState('');
     const [selectedQuizId, setSelectedQuizId] = useState(null);
-    const [showModal, setShowModal] = useState(false); // Add state for error modal
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
+
         const fetchUserQuizzes = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/user_quizzes/${userId}`);
                 setUserQuizzes(response.data);
+
                 if (response.data.length === 0) {
                     setShowModal(true); // Show modal if no quizzes found
                 }
@@ -30,43 +35,40 @@ function UserQuizPage() {
         fetchUserQuizzes();
     }, [userId]);
 
-    const handleToggleQuizDetails = (quizId) => {
-        setSelectedQuizId(selectedQuizId === quizId ? null : quizId);
-    };
 
     const handleCloseModal = () => {
         setShowModal(false);
     };
 
+    const colors = ['#F5001E', '#5424FD', '#FCC636'];
+
     return (
-        <div className="user-quiz__container">
-            <h2>User Quizzes</h2>
-            {error && <p className="error-message">{error}</p>}
-            {userQuizzes.map(quiz => (
-                <div key={quiz.id} className={`user-quiz__card ${selectedQuizId === quiz.id ? 'flipped' : ''}`}>
-                    <div className="front" onClick={() => handleToggleQuizDetails(quiz.id)}>
-                        <h3>{quiz.title}</h3>
-                        <p>Category: {quiz.category}</p>
-                        <p>Total Questions: {quiz.num_questions}</p>
-                        <Button variant="primary">Details</Button>
+        <div className="user-quiz">
+            <div className="user-quiz__container">
+                <h2 className="user-quiz__title">User Quizzes</h2>
+                {error && <p className="user-quiz__error">{error}</p>}
+                {userQuizzes.map((quiz, index) => (
+                    <div key={quiz.id} className="user-quiz__card-container">
+                        <div className="user-quiz__card" style={{ backgroundColor: colors[index % colors.length] }}>
+                            <h3 className="user-quiz__subtitle">{quiz.title}</h3>
+                            <p className="user-quiz__text">Category: {quiz.category}</p>
+                            <p className="user-quiz__text">Total Questions: {quiz.num_questions}</p>
+                            <Link to={`/${userId}/user_quizzes/${quiz.id}`}>
+                                <Button className="user-quiz__button">Details</Button>
+                            </Link>
+                        </div>
                     </div>
-                    <div className="back">
-                        <UserQuizDetails userId={userId} quizId={quiz.id} />
-                    </div>
-                </div>
-            ))}
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header>
-                    <Modal.Title>Sorry, no quizzes found</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>There are no created quizzes.</p>
-                    <p>Would you like to create one?</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Link to={`/${userId}/create`} className="btn btn-primary">Create Quiz</Link>
-                </Modal.Footer>
-            </Modal>
+                ))}
+            </div>
+
+            <ModalComponent
+                show={showModal}
+                onHide={handleCloseModal}
+                title="Sorry, no quizzes found"
+                body="There are no created quizzes. Would you like to create one?"
+                primaryButton="Create a Quiz"
+                onClick={() => navigate(`/${userId}/create`)}
+            />
         </div>
     );
 }

@@ -31,12 +31,14 @@
 
     &__icon {
         margin-left: 0.75rem;
+        cursor: pointer;
     }
 
     &__back {
         position: absolute; 
         top: 2%; 
         left: 6%;
+        cursor: pointer;
 
         @include tablet {
             top: 3.5%;

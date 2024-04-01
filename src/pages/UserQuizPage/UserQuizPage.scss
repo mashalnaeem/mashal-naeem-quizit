@@ -1,49 +1,83 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+
 .user-quiz {
 
     &__container {
         display: flex;
+        justify-content: center;
         flex-direction: column;
-        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 1rem;
+        margin: 0 -0.5rem;
+    }
+
+    &__card-container {
+        flex: 0 0 calc(100% - 1rem);
+        max-width: 300px;
+        margin: 0.5rem;
     }
 
     &__card {
-        width: 200px;
+        position: relative;
         height: 250px;
-        border: 1px solid #ccc;
         border-radius: 5px;
-        margin: 10px;
         perspective: 1000px;
-        /* Add perspective for 3D effect */
+        height: 250px;
+        width: 300px;
+        border-radius: 1rem;
+    }
+
+    &__title {
+        font-weight: 700;
+        font-size: 3.5rem;
+        color: $gray;
+        margin: 1rem;
+        text-align: center;
+
+        @include tablet {
+            font-size: 4rem;
+        }
+    }
+
+    &__subtitle {
+        @include subtitle;
+        color: $white;
+        font-size: 1.25rem;
+        margin-bottom: 0;
+        margin-left: 1rem;
+        padding-top: 1rem;
+
+        @include desktop {
+            font-size: 1.5rem;
+        }
+    }
+
+    &__text {
+        @include text;
+        font-size: 1rem;
+        color: $white;
+        margin: 1rem;
+        margin-left: 1.5rem;
+
+        @include desktop {
+            font-size: 1.25rem;
+        }
+    }
+
+    &__error {
+        @include error;
+    }
+
+    &__button {
+        @include button-details-mobile;
+        font-size: 0.75rem;
+        margin: 1.5rem;
+        position: absolute;
+        bottom: 0;
+        right: 0;
     }
 }
 
-.front, .back {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    backface-visibility: hidden; /* Hide backface of the cards */
-}
-
-.front {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #fff;
-    z-index: 2;
-}
-
-.back {
-    display: none;
-    transform: rotateY(180deg); /* Initial flip to hide back side */
-}
-
-.flipped .front {
-    transform: rotateY(-180deg); /* Flip front side */
-}
-
-.flipped .back {
-    display: block;
-    transform: rotateY(0deg); /* Show back side */
-}

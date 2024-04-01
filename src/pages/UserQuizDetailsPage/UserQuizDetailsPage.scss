@@ -1,0 +1,29 @@
+@use "../../styles/partials/global" as *;
+@use "../../styles/partials/mixins" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/typography" as *;
+
+.details {
+    position: relative;
+
+    &__icon-box {
+        align-self: flex-end;
+    }
+
+    &__buttons {
+        @include button;
+        width: 100%;
+        font-size: 1rem;
+        color: $white;
+        background-color: $yellow;
+        border: none;
+    }
+
+    &__icon{
+        margin-bottom: 1rem;
+        cursor: pointer;
+    }
+}
+
+
+

@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 import BackIcon from '../../components/BackIcon/BackIcon';
 
 function QuizDetailsPage() {
+
     const [quiz, setQuiz] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -42,6 +43,7 @@ function QuizDetailsPage() {
 
     // Listen for the generated quiz code from the server
     useEffect(() => {
+        
         socket.on('quizCodeGenerated', (generatedCode) => {
             setQuizCode(generatedCode);
         });
