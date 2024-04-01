@@ -84,35 +84,5 @@
         height: 1rem;
         margin-top: 0.25rem;
     }
-
-    &.dark-mode {
-
-        .header {
-            background-color: $black;
-            color: $white;
-        }
-
-        .nav__link {
-            color: $white;
-        }
-
-        .nav__link.active {
-            color: $red;
-        }
-    }
 }
 
-.toggle-icons {
-    position: absolute;
-    top: 1%;
-    right: 1.5%;
-
-    @include tablet {
-        top: 7.5%;
-        right: 1%;
-    }
-
-    @include desktop {
-        right: 0.5%;
-    }
-}

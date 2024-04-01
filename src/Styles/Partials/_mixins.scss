@@ -34,11 +34,11 @@
     @include button;
     background-image: url("../../assets/images/details.svg");
     background-size: 0.75rem;
-    background-position: 3.9rem 0.75rem;
+    background-position: 4rem 0.75rem;
     background-repeat: no-repeat;
     padding-right: 1rem;
     padding-left: 0;
-    width: 5.5rem;
+    width: 5.25rem;
 }
 
 @mixin card {
