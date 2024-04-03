@@ -3,7 +3,7 @@ import "./QuizCreatePage.scss"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import ModalComponent from "../../components/ModalComponent/ModalComponent";
 import Question from "../../components/Question/Question"
@@ -32,7 +32,7 @@ function QuizCreatePage({ mode }) {
     // Define state variables for error messages
     const [errors, setErrors] = useState("");
     const [error, setError] = useState("");
-    const [questionErrors, setQuestionErrors] = useState([]);
+    const [questionErrors, setQuestionErrors] = useState([]); 
 
     useEffect(() => {
 
@@ -51,7 +51,8 @@ function QuizCreatePage({ mode }) {
         }
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e, index) => {
+
         const { name, value, type, checked } = e.target;
         const newValue = type === 'checkbox' ? checked : value;
     
@@ -62,11 +63,19 @@ function QuizCreatePage({ mode }) {
             return updatedErrors;
         });
     
+        if (index !== undefined) {
+            setQuestionErrors(prevQuestionErrors => {
+                const updatedQuestionErrors = [...prevQuestionErrors];
+                updatedQuestionErrors[index] = ''; // Remove error for the updated question
+                return updatedQuestionErrors;
+            });
+        }
+    
         setFormData(prevData => ({
             ...prevData,
             [name]: newValue
         }));
-    };    
+    };           
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -243,6 +252,7 @@ function QuizCreatePage({ mode }) {
                     questions={formData.questions}
                     setFormData={setFormData}
                     questionErrors={questionErrors}
+                    setQuestionErrors={setQuestionErrors}
                 />
 
                 {error && <p className="error-message">{error}</p>}

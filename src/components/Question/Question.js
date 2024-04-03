@@ -5,39 +5,40 @@ import { Button } from 'react-bootstrap';
 
 import Input from '../Input/Input';
 
-const Question = ({ questions, setFormData, questionErrors }) => {
-
-const [errors, setErrors] = useState("");
+const Question = ({ questions, setFormData, questionErrors, setQuestionErrors }) => {
 
     const handleQuestionChange = (e, index, field, subIndex) => {
-        
         const { value } = e.target;
+    
         const updatedQuestions = [...questions];
         if (field === 'incorrect_answers') {
             updatedQuestions[index].incorrect_answers[subIndex] = value;
         } else {
             updatedQuestions[index][field] = value;
         }
+    
+        // Update form data with the updated questions
         setFormData(prevData => ({
             ...prevData,
             questions: updatedQuestions,
             num_questions: updatedQuestions.length
         }));
-
-        // Check for error conditions and set error messages
-        const newErrors = [...questionErrors];
-        if (field === 'question' && !value.trim()) {
-            newErrors[index] = { ...newErrors[index], question: 'Question is required' };
-        } else if (field === 'correct_answer' && !value.trim()) {
-            newErrors[index] = { ...newErrors[index], correct_answer: 'Correct answer is required' };
-        } else if (field === 'incorrect_answers' && subIndex === 0 && !value.trim()) {
-            newErrors[index] = { ...newErrors[index], [`incorrect_answers[${subIndex}]`]: 'First incorrect answer is required' };
-        } else {
-            newErrors[index] = { ...newErrors[index], [field]: '' };
-        }
-        setErrors(newErrors);
-    };
-
+    
+        // Clear error message for the corresponding question field
+        setQuestionErrors(prevQuestionErrors => {
+            const newQuestionErrors = [...prevQuestionErrors];
+            // Check if the value is empty and update the error message accordingly
+            if (!value.trim() && subIndex === 0) {
+                newQuestionErrors[index][field] = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+                
+            } else {
+                newQuestionErrors[index][field] = ''; // Clear the error message
+                
+            }
+            return newQuestionErrors;
+        });
+    };    
+    
     const handleRemoveQuestion = (index) => {
 
         const updatedQuestions = questions.filter((_, i) => i !== index);
