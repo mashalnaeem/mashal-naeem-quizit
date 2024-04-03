@@ -85,7 +85,7 @@ function QuizCreatePage({ mode }) {
         if (!formData.difficulty.trim()) {
             newErrors['difficulty'] = 'Difficulty is required';
         }
-        if (!formData.duration_minutes.trim()) {
+        if (!formData.duration_minutes) {
             newErrors['duration_minutes'] = 'Duration is required';
         }
         
