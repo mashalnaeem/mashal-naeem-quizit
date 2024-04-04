@@ -4,5 +4,11 @@
 body {
   font-family: "Lordina", sans-serif !important;
   position: relative;
+  height: 100vh;
+}
+
+.dark-mode {
+  background-color: #000; 
+  color: #fff; 
 }
 

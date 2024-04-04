@@ -32,9 +32,9 @@ function HomePage() {
     return (
         <section className="home">
             <h1 className="text-center home__title">
-                <span className="home__create">Create, </span>
-                <span className="home__play">Play, </span>
-                <span className="home__run">Learn!</span>
+                <p className="home__create">Create,</p>
+                <p className="home__play">Play,</p>
+                <p className="home__run">Learn!</p>
             </h1>
             <article className="home__body">
                 <Card className="home__container">

@@ -1,6 +1,8 @@
 import './App.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import { useState } from "react";
+
 import Header from "./components/Header/Header";
 import Footer from './components/Footer/Footer';
 import JoinPage from "./pages/JoinPage/JoinPage"; 
@@ -8,7 +10,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import SignupPage from "./pages/SignUpPage/SignUpPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import ProfileEditPage from "./pages/ProfileEditPage/ProfileEditPage"
+import ProfileEditPage from "./pages/ProfileEditPage/ProfileEditPage";
 import QuizListPage from "./pages/QuizListPage/QuizListPage";
 import QuizDetailsPage from "./pages/QuizDetailsPage/QuizDetailsPage";
 import QuizCreatePage from "./pages/QuizCreatePage/QuizCreatePage";
@@ -21,11 +23,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
 
-    <div className="App">
+    <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
       <Router>
-        <Header />
+      <Header toggleDarkMode={toggleDarkMode} darkMode={darkMode} />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/:userId/home" element={<HomePage />} />

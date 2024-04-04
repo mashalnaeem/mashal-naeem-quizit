@@ -3,8 +3,10 @@ import "./Header.scss";
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 
 import logo from "../../assets/logo/logo.svg";
+import darkIcon from "../../assets/images/dark.svg"
+import lightIcon from "../../assets/images/light.svg"
 
-function Header() {
+function Header({ toggleDarkMode, darkMode }) {
 
   const navigate = useNavigate();
 
@@ -52,6 +54,10 @@ function Header() {
           )}
         </ul>
       </nav>
+
+    <div>
+    <img src={darkMode ? lightIcon : darkIcon} alt={darkMode ? "sun" : "crescent"} onClick={toggleDarkMode} />
+      </div>
     </header>
   );
 };
